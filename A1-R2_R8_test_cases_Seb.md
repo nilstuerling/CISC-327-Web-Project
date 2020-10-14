@@ -97,7 +97,11 @@ Actions:
 
 Actions:
 
-* Open /logout (to invalidate any logged-in sessions that may exist)-Open /register-Enter valid email string into element #email-Enter valid user_name string into element #user_name-Enter valid password string into element #password
+* Open /logout (to invalidate any logged-in sessions that may exist)
+* Open /register
+* Enter valid email string into element #email
+* Enter valid user_name string into element #user_name
+* Enter valid password string into element #password
 * Enter valid password string, but different than the one entered into element #password, in element #password2
 * Click element input[type=”submit”]
 * Validate that page displays “Password format is incorrect. Passwords must match” and remains on register page
@@ -145,12 +149,6 @@ Actions:
 * Enter valid and matching password in elements #password and #password2
 * Click element input[type=”submit”]
 * Validate that page displays “User name format is incorrect. User name too long: must be between 3 and 19 characters” and remains on register page
-
-**R2.9. For any formatting errors, redirect back to /login and show message '{} format is incorrect.'.format(the_corresponding_attribute)**
-
-Actions
-
-* Run test cases for R2.5 through R2.8
 
 **R2.10.  If the email already exists, show message 'this email has been ALREADY used'**
 
