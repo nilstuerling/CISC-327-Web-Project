@@ -68,4 +68,4 @@ Currently, we plan on adding our test case code files to the *qa327_test/fronten
 *frontend/login*\
 If the login folder also becomes too large we would split the login folder by request type:\
 *login/test_get*\
-*login/test_post*\
+*login/test_post*
