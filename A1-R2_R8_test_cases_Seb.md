@@ -17,7 +17,7 @@ Actions:
 * Enter test_user’s email into element #email
 * Enter test_user’s password into element #password
 * Click element input[type=”submit”]
-* Open /register
+* Open /login
 * Validate that the current page contains #welcome-header element (future implementation may not have a #welcome-header element)
 
 **R2.2.  otherwise, show the user registration page**
@@ -33,8 +33,8 @@ Actions:
 Actions:
 
 * open /logout (to invalidate any logged-in sessions that may exist)
-* open /login
-* validate that the #login.html page renders and contains a form with input elements: #email, #user_name, #password and #password2
+* open /register
+* validate that the #register.html page renders and contains a form with input elements: #email, #user_name, #password and #password2
 \
 \
 \
@@ -45,7 +45,7 @@ Actions:
 Actions:
 
 * Open /logout (to invalidate any logged-in session that may exist)
-* Open /login
+* Open /register
 * Enter valid email string that complies with addr-spec into element #email
 * Enter valid user_name string into element #user_name
 * Enter valid password string into element #password and #password2
