@@ -57,13 +57,13 @@
 | For any other requests except the ones above, the system should return a 404 error                                                                            | 8.1          | Check if requests to any endpoint aside from: login, register, sell, update, buy, logout return a 404 error                                                                                                                                                |
 
 
-**How did your team organize the documentations of the test cases (e.g. where did you store the test case markdown file for each team member)?**
+**How did your team organize the documentations of the test cases (e.g. where did you store the test case markdown file for each team member)?**\
 We created a docs folder inside the existing qa327_test folder within the CI-Python template to store the test case documentations we created for the front-end requirements. The docs folder is intended to hold all future documentation regarding test cases for both the front and backend. If the number of documentations becomes large enough, we will consider splitting the docs folder into two folders: frontend_test_docs and backend¬¬_test¬_docs, for the front and backend, respectively.
 
-**Your understanding of how the chosen testing framework works to test the frontend, including your understandings of when and how the test cases will be running directly on GitHub.**
+**Your understanding of how the chosen testing framework works to test the frontend, including your understandings of when and how the test cases will be running directly on GitHub.**\
 The chosen testing framework for the frontend is pytest. The framework works by simulating frontend actions (i.e. opening different endpoints) and mocking backend responses where needed. By mocking backend responses, we can make assertions within our test cases without having to run backend code. As a result, we test whether frontend UI elements execute as intended (i.e. UI elements submit/validate correctly, corresponding error messages are displaying, etc.) and whether the frontend displays/reacts to data correctly (through mocked backend data).
 
-**How are you going to organize different test case code files? (a folder for a specification?)**
+**How are you going to organize different test case code files? (a folder for a specification?)**\
 Currently, we plan on adding our test case code files to the qa327_test/frontend/ folder (as it is already a designated folder for frontend test case code files). If the folder becomes to large in the future, we will consider having separate folders for each endpoint. For example:
 frontend/login
 If the login folder also becomes too large we would split the login folder by request type:
