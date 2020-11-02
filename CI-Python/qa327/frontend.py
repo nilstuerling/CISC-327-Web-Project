@@ -56,6 +56,13 @@ def login_get():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
+
+    emailIsValid = bn.validateEmail(email)
+    passwordIsValid = bn.validatePassword(password)
+
+    if not emailIsValid or not passwordIsValid:
+        return render_template('login.html', message='email/password format is incorrect')
+
     user = bn.login_user(email, password)
     if user:
         session['logged_in'] = user.email
