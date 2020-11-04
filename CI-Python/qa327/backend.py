@@ -31,6 +31,15 @@ def validatePassword(password):
         return False
     return True
 
+# Function that validates user input username
+def validateUserName(username):
+    # Check username length
+    if len(username) < 2 or len(username) >= 20:
+        return False
+    # Check if username is alphanumeric
+    if not all(char.isalnum() for char in username):
+        return False
+    return True
 
 
 def get_user(email):
@@ -69,7 +78,7 @@ def register_user(email, name, password, password2):
 
     hashed_pw = generate_password_hash(password, method='sha256')
     # store the encrypted password rather than the plain password
-    new_user = User(email=email, name=name, password=hashed_pw)
+    new_user = User(email=email, name=name, password=hashed_pw, balance=5000)
 
     db.session.add(new_user)
     db.session.commit()
