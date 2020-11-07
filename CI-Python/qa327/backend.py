@@ -36,8 +36,11 @@ def validateUserName(username):
     # Check username length
     if len(username) < 2 or len(username) >= 20:
         return False
+    # Check if username has leading or trailing space
+    if username[0] == ' ' or username[-1] == ' ':
+        return False
     # Check if username is alphanumeric
-    if not all(char.isalnum() for char in username):
+    elif not all((char.isalnum() or char == ' ') for char in username):
         return False
     return True
 
