@@ -135,7 +135,7 @@ def profile(user):
         date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
         if (date1 > date2 and date1 != date2):
             tickets.remove(ticket)
-    return render_template('index.html', user=user, tickets=tickets, todayDate=todayDate)
+    return render_template('index.html', user=user, tickets=tickets)
 
 
 @app.route('/sell', methods=['POST'])
