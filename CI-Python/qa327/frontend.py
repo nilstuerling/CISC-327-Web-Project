@@ -139,7 +139,7 @@ def profile(user):
 
 
 @app.route('/sell', methods=['POST'])
-def _post():
+def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
     price = request.form.get('price')
@@ -148,14 +148,14 @@ def _post():
 
 
 @app.route('/buy', methods=['POST'])
-def _post():
+def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
     return render_template('buy.html')
 
 
 @app.route('/update', methods=['POST'])
-def _post():
+def update_form_post():
     name = request.form.get('updateName')
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
