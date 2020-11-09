@@ -155,7 +155,6 @@ def profile(user):
             tickets.remove(ticket)
     return render_template('index.html', user=user, tickets=tickets)
 
-
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
 def sell_form_post():
@@ -182,3 +181,8 @@ def update_form_post():
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
     return render_template('update.html')
+
+# 404 error
+@app.errorhandler(404)
+def not_found(e):
+    return render_template("404.html")
