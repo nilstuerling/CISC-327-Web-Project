@@ -17,7 +17,7 @@ Test Plan
 * A local test environment is done using Python and the Flask library.
 
 ### Responsibility (who is responsible for which test case, and in case of failure, who should you contact)
-* Each person will be responsable for the test cases corresponding to the requirements they detailed in Assignment 1. Additionally, using git, we can see who made modifications to both source code and test cases. Using this, when a test fails, we can both contact the manager for that certain test, as well as whoever made the last edit to the code base that caused the test to fail when it previously passed. 
+* Each person will be responsible for the test cases corresponding to the requirements they detailed in Assignment 1. Additionally, using git, we can see who made modifications to both source code and test cases. Using this, when a test fails, we can both contact the manager for that certain test, as well as whoever made the last edit to the code base that caused the test to fail when it previously passed. 
 
 ### Budget Management (you have limited CI action minutes, how to monitor, keep track and minimize unnecessary cost)
 * In order to use the Github Action minutes most efficiently, all changes to the codebase will go through pull requests that must be approved by all members. This allows for the best chance of catching any mistakes before the tests run again, thus minimizing the number of tests that will be run. Furthermore, Github has an option to provide a usage report on Actions. By reviewing the usage report after Action tests are run, we can determine whether we are approaching the usage cap and adjust our testing frequencies accordingly.
