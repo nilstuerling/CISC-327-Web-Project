@@ -5,7 +5,45 @@
 {% endblock %}
 
 {% block content %}
-<h2 id="welcome-header">Welcome {{ user.name }} !</h2>
+<h2 id="welcome-header">Hi {{ user.name }} !</h2>
+
+<form method="post">
+  <div class="form-group">
+    <label for="name">Name</label>
+    <input class="form-control" name="name" id="name" required>
+    <label for="quantity">Quanitiy</label>
+    <input class="form-control" name="quantity" id="quantity" required>
+    <label for="price">Price</label>
+    <input class="form-control" name="price" id="price" required>
+    <label for="expireDate">Expiration Date</label>
+    <input class="form-control" name="expireDate" id="expireDate" required>
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
+  </div>
+</form>
+
+<form method="post">
+  <div class="form-group">
+    <label for="buyName">Name</label>
+    <input class="form-control" name="buyName" id="buyName" required>
+    <label for="buyQuantity">Quanitiy</label>
+    <input class="form-control" name="buyQuantity" id="buyQuantity" required>
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Sell">
+  </div>
+</form>
+
+<form method="post">
+  <div class="form-group">
+    <label for="updateName">Name</label>
+    <input class="form-control" name="updateName" id="updateName" required>
+    <label for="updateQuantity">Quanitiy</label>
+    <input class="form-control" name="updateQuantity" id="updateQuantity" required>
+    <label for="updatePrice">Price</label>
+    <input class="form-control" name="updatePrice" id="updatePrice" required>
+    <label for="expireDate">Expiration Date</label>
+    <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Sell">
+  </div>
+</form>
 
 
 <h2 >Here are all available tickets</h2>
@@ -13,7 +51,8 @@
 <div id="tickets">
 {% for ticket in tickets %}
     <div>
-        <h4>{{ ticket.name }} {{ ticket.price }}</h4>
+        <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
+        <p>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.contact }}  </p>
     </div>
 {% endfor %}
 </div>

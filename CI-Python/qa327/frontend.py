@@ -1,5 +1,7 @@
 from flask import render_template, request, session, redirect
 from qa327 import app
+from datetime import date
+from datetime import datetime
 import qa327.backend as bn
 
 """
@@ -125,5 +127,37 @@ def profile(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
+    today = date.today()
+    todayDate = today.strftime("%d/%m/%y")
     tickets = bn.get_all_tickets()
+    for ticket in tickets:
+        date1 = date.today()
+        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        if (date1 > date2 and date1 != date2):
+            tickets.remove(ticket)
     return render_template('index.html', user=user, tickets=tickets)
+
+
+@app.route('/sell', methods=['POST'])
+def sell_form_post():
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expireDate = request.form.get('expireDate')
+    return render_template('sell.html')
+
+
+@app.route('/buy', methods=['POST'])
+def buy_form_post():
+    name = request.form.get('buyName')
+    quantity = request.form.get('buyQuantity')
+    return render_template('buy.html')
+
+
+@app.route('/update', methods=['POST'])
+def update_form_post():
+    name = request.form.get('updateName')
+    quantity = request.form.get('updateQuantity')
+    price = request.form.get('updatePrice')
+    expireDate = request.form.get('updateExpireDate')
+    return render_template('update.html')
