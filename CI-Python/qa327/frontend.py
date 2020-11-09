@@ -14,6 +14,8 @@ The html templates are stored in the 'templates' folder.
 
 @app.route('/register', methods=['GET'])
 def register_get():
+    if "logged_in" in session:
+        return redirect('/')
     # templates are stored in the templates folder
     return render_template('register.html', message='')
 
@@ -26,19 +28,21 @@ def register_post():
     password2 = request.form.get('password2')
     error_message = None
 
-
     if password != password2:
         error_message = "The passwords do not match"
 
-    elif len(email) < 1:
+    elif not bn.validateEmail(email):
         error_message = "Email format error"
 
-    elif len(password) < 1:
+    elif not bn.validatePassword(password):
         error_message = "Password not strong enough"
+
+    elif not bn.validateUserName(name):
+        error_message = "Username format error"
     else:
         user = bn.get_user(email)
         if user:
-            error_message = "User exists"
+            error_message = "This email has been ALREADY used"
         elif not bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
@@ -58,6 +62,13 @@ def login_get():
 def login_post():
     email = request.form.get('email')
     password = request.form.get('password')
+
+    emailIsValid = bn.validateEmail(email)
+    passwordIsValid = bn.validatePassword(password)
+
+    if not emailIsValid or not passwordIsValid:
+        return render_template('login.html', message='email/password format is incorrect')
+
     user = bn.login_user(email, password)
     if user:
         session['logged_in'] = user.email
