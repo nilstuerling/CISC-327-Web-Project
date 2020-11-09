@@ -12,6 +12,7 @@ The html templates are stored in the 'templates' folder.
 """
 
 
+# renders register page
 @app.route('/register', methods=['GET'])
 def register_get():
     if "logged_in" in session:
@@ -20,6 +21,7 @@ def register_get():
     return render_template('register.html', message='')
 
 
+# validates register info from form, and calls backend to add user to database
 @app.route('/register', methods=['POST'])
 def register_post():
     email = request.form.get('email')
@@ -53,11 +55,13 @@ def register_post():
         return redirect('/login')
 
 
+# renders login page
 @app.route('/login', methods=['GET'])
 def login_get():
     return render_template('login.html', message='Please login')
 
 
+# logs user in session if valid email/password pair, present in databse
 @app.route('/login', methods=['POST'])
 def login_post():
     email = request.form.get('email')
@@ -89,6 +93,7 @@ def login_post():
         return render_template('login.html', message='login failed')
 
 
+# logs current user out of session
 @app.route('/logout')
 def logout():
     if 'logged_in' in session:
@@ -96,6 +101,7 @@ def logout():
     return redirect('/')
 
 
+# Function decoration to validate logged in session
 def authenticate(inner_function):
     """
     :param inner_function: any python function that accepts a user object
@@ -130,6 +136,7 @@ def authenticate(inner_function):
     return wrapped_inner
 
 
+# Renders logged in user home page
 @app.route('/')
 @authenticate
 def profile(user):
@@ -149,6 +156,7 @@ def profile(user):
     return render_template('index.html', user=user, tickets=tickets)
 
 
+# gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
 def sell_form_post():
     name = request.form.get('name')
@@ -158,6 +166,7 @@ def sell_form_post():
     return render_template('sell.html')
 
 
+# Gets ticket info from form and renders buy page
 @app.route('/buy', methods=['POST'])
 def buy_form_post():
     name = request.form.get('buyName')
@@ -165,6 +174,7 @@ def buy_form_post():
     return render_template('buy.html')
 
 
+# gets ticket info from form and renders update ticket page
 @app.route('/update', methods=['POST'])
 def update_form_post():
     name = request.form.get('updateName')

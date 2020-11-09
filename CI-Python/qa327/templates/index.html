@@ -6,12 +6,16 @@
 
 {% block content %}
 <h2 id="welcome-header">Hi {{ user.name }} !</h2>
+<br>
 
+<div>
+<h3>Sell Tickets</h3>
 <form method="post">
-  <div class="form-group">
+  <div class="form-group" style="margin-bottom:15px;">
+
     <label for="name">Name</label>
     <input class="form-control" name="name" id="name" required>
-    <label for="quantity">Quanitiy</label>
+    <label for="quantity">Quantity</label>
     <input class="form-control" name="quantity" id="quantity" required>
     <label for="price">Price</label>
     <input class="form-control" name="price" id="price" required>
@@ -20,35 +24,46 @@
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
   </div>
 </form>
+<br>
+</div>
 
-<form method="post">
-  <div class="form-group">
+<div>
+<h3>Buy Tickets</h3>
+<form method="post" >
+  <div class="form-group" style="margin-bottom:15px;">
+
     <label for="buyName">Name</label>
     <input class="form-control" name="buyName" id="buyName" required>
-    <label for="buyQuantity">Quanitiy</label>
+    <label for="buyQuantity">Quantity</label>
     <input class="form-control" name="buyQuantity" id="buyQuantity" required>
-    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Sell">
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Buy">
   </div>
 </form>
+<br>
+</div>
 
+<div>
+<h3>Update Tickets</h3>
 <form method="post">
-  <div class="form-group">
+  <div class="form-group" style="margin-bottom:15px;">
+
     <label for="updateName">Name</label>
     <input class="form-control" name="updateName" id="updateName" required>
-    <label for="updateQuantity">Quanitiy</label>
+    <label for="updateQuantity">Quantity</label>
     <input class="form-control" name="updateQuantity" id="updateQuantity" required>
     <label for="updatePrice">Price</label>
     <input class="form-control" name="updatePrice" id="updatePrice" required>
     <label for="expireDate">Expiration Date</label>
     <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
-    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Sell">
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
   </div>
 </form>
 
+<br>
+</div>
 
-<h2 >Here are all available tickets</h2>
-
-<div id="tickets">
+<div id="tickets" style="margin-bottom:15px;">
+  <h2 >Here are all available tickets</h2>
 {% for ticket in tickets %}
     <div>
         <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
@@ -56,6 +71,7 @@
     </div>
 {% endfor %}
 </div>
-
+<br>
 <a href='/logout'>logout</a>
+<br>
 {% endblock %}

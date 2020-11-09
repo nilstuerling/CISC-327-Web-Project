@@ -45,7 +45,7 @@ def validateUserName(username):
         return False
     return True
 
-
+# Function that returns User object from database from unique email adress
 def get_user(email):
     """
     Get a user by a given email
@@ -55,7 +55,7 @@ def get_user(email):
     user = User.query.filter_by(email=email).first()
     return user
 
-
+# Logs user in session if valid email/password pair
 def login_user(email, password):
     """
     Check user authentication by comparing the password
@@ -69,7 +69,7 @@ def login_user(email, password):
         return None
     return user
 
-
+# Registers and adds user to database with valid supplied parameters
 def register_user(email, name, password, password2):
     """
     Register the user to the database
@@ -88,25 +88,27 @@ def register_user(email, name, password, password2):
     db.session.commit()
     return None
 
-
+# Gets all tickets in tickets database and returns a list of all tickets
 def get_all_tickets():
-    return []
+#    return []
+     return db.session.query(Tickets).all()
 
 
+# Adds ticket with input parameters and commits new addition to tickets database
 def sell_ticket(name,quantity,price,expireDate):
     new_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
     db.session.add(new_ticket)
     db.session.commit()
     return None
 
-
+# Updates ticket with parameters and commits new changes to tickets database
 def update_ticket(name,quantity,price,expireDate):
     updated_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
     db.session.update(updated_ticket)
     db.session.commit()
     return None
 
-
+# Adds specified ticket to user account, removing specified quantity from database
 def buy_ticket(name,quantity):
     bought_ticket = Tickets(email=User.email,name=name,quantity=quantity)
     db.session.remove(bought_ticket)

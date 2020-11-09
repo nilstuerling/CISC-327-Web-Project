@@ -13,7 +13,7 @@ write SQL queries such as 'select', 'update' etc.
 db = SQLAlchemy()
 db.init_app(app)
 
-
+# User object, stores user information in database
 class User(db.Model):
     """
     A user model which defines the sql table
@@ -25,6 +25,7 @@ class User(db.Model):
     balance = db.Column(db.Numeric(scale=2))
 
 
+# Ticket object, stores ticket info in databse
 class Tickets(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100), unique=True)
