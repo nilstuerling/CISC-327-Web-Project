@@ -1,4 +1,4 @@
-name: Python application
+name: CISC 327 Web Application
 
 on: [push]
 
