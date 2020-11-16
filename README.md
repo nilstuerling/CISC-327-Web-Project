@@ -7,5 +7,6 @@ https://github.com/CISC-CMPE-327/Information
 
 Build Status
 ------------
+<<<<<<< HEAD
 [![](https://github.com/nilstuerling/CISC-327-Web-Project/workflows/pytest-actions/badge.svg)]()
 
