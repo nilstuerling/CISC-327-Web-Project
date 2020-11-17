@@ -58,6 +58,8 @@ def register_post():
 # renders login page
 @app.route('/login', methods=['GET'])
 def login_get():
+    if "logged_in" in session:
+        return redirect('/')
     return render_template('login.html', message='Please login')
 
 
@@ -71,7 +73,7 @@ def login_post():
     passwordIsValid = bn.validatePassword(password)
 
     if not emailIsValid or not passwordIsValid:
-        return render_template('login.html', message='email/password format is incorrect')
+        return render_template('login.html', message='Email/Password format is incorrect')
 
     user = bn.login_user(email, password)
     if user:
@@ -90,7 +92,7 @@ def login_post():
         # code 303 is to force a 'GET' request
         return redirect('/', code=303)
     else:
-        return render_template('login.html', message='login failed')
+        return render_template('login.html', message='email/password combination incorrect')
 
 
 # logs current user out of session

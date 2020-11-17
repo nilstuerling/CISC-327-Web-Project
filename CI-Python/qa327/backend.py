@@ -28,9 +28,9 @@ def validatePassword(password):
     if not any(char.islower() for char in password):
         return False
     # Check password contains at least 1 character that is not alphanumeric (i.e. special character, including whitespace)
-    if not any(char.isalnum() for char in password):
-        return False
-    return True
+    if any(not char.isalnum() for char in password):
+        return True
+    return False
 
 # Function that validates user input username
 def validateUserName(username):
