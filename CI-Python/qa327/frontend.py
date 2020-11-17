@@ -45,7 +45,7 @@ def register_post():
         user = bn.get_user(email)
         if user:
             error_message = "This email has been ALREADY used"
-        elif not bn.register_user(email, name, password, password2):
+        elif bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
@@ -128,6 +128,8 @@ def authenticate(inner_function):
                 # if the user exists, call the inner_function
                 # with user as parameter
                 return inner_function(user)
+            else:
+                return redirect('/logout')
         else:
             # else, redirect to the login page
             return redirect('/login')

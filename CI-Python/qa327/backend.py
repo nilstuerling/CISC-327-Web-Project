@@ -83,9 +83,9 @@ def register_user(email, name, password, password2):
     hashed_pw = generate_password_hash(password, method='sha256')
     # store the encrypted password rather than the plain password
     new_user = User(email=email, name=name, password=hashed_pw, balance=5000)
-
     db.session.add(new_user)
     db.session.commit()
+    print("\n\nLMAOXD\n\n")
     return None
 
 # Gets all tickets in tickets database and returns a list of all tickets

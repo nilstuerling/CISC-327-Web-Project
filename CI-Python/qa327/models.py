@@ -13,6 +13,7 @@ write SQL queries such as 'select', 'update' etc.
 db = SQLAlchemy()
 db.init_app(app)
 
+
 # User object, stores user information in database
 class User(db.Model):
     """
@@ -23,6 +24,7 @@ class User(db.Model):
     password = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     balance = db.Column(db.Numeric(scale=2))
+
 
 
 # Ticket object, stores ticket info in databse
@@ -37,5 +39,6 @@ class Tickets(db.Model):
 
 # it creates all the SQL tables if they do not exist
 with app.app_context():
+    db.drop_all()
     db.create_all()
     db.session.commit()
