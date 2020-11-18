@@ -98,7 +98,7 @@ class test_R3(BaseCase):
 
 		# Test user balance
 		self.assert_element("#user_balance")
-		self.assert_text("Balance: {{ user.balance }}", "#user_balance")
+		self.assert_text("Balance: 50000", "#user_balance")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -150,7 +150,7 @@ class test_R3(BaseCase):
 		# Test that all ticket information is displayed
 		self.assert_element("#tickets div h4")
 		self.assert_text("t1 100", "#tickets div h4")
-		self.assert_text("1 11/17/2020 test_frontend@test.com", "#tickets div p")
+		self.assert_text("1 11/17/2020 test_frontend@test.com", "#tickets div h5")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
