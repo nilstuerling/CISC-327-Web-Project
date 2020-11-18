@@ -98,7 +98,7 @@ class test_R3(BaseCase):
 
 		# Test user balance
 		self.assert_element("#user_balance")
-		self.assert_text("50000", "#user_balance")
+		self.assert_text("5000", "#user_balance")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
