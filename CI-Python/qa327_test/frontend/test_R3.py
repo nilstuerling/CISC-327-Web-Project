@@ -49,7 +49,8 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_header(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -71,7 +72,8 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 		self.assert_text("Hi test_frontend", "#welcome-header")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_user_balance(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -96,7 +98,8 @@ class test_R3(BaseCase):
 		self.assert_element("#user_balance")
 		self.assert_text("Balance: {{ user.balance }}", "#user_balance")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_logout_link(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -120,7 +123,8 @@ class test_R3(BaseCase):
 		# Test logout link // added id to logout link
 		self.assert_element("#logout_link")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_all_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -146,7 +150,8 @@ class test_R3(BaseCase):
 		self.assert_text("t1 100", "#tickets div h4")
 		self.assert_text("1 11/17/2020 test_frontend@test.com", "#tickets div p")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_sell_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -173,7 +178,8 @@ class test_R3(BaseCase):
 		self.assert_element("#price")
 		self.assert_element("#expireDate")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_buy_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -198,7 +204,8 @@ class test_R3(BaseCase):
 		self.assert_element("#buyName")
 		self.assert_element("#buyQuantity")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_redirect_to_sell(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -225,7 +232,8 @@ class test_R3(BaseCase):
 		# Test on sell page now
 		self.assert_element("#sell_header")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_redirect_to_buy(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -252,7 +260,8 @@ class test_R3(BaseCase):
 		# Test on buy page now
 		self.assert_element("#buy_header")
 
-
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_redirect_to_update(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
