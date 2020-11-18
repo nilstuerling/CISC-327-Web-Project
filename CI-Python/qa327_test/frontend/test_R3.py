@@ -46,7 +46,7 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-		self.open(base_url + '/login')
+#		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
