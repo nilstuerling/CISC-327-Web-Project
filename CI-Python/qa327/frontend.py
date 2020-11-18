@@ -148,11 +148,11 @@ def profile(user):
     today = date.today()
     todayDate = today.strftime("%d/%m/%y")
     tickets = bn.get_all_tickets()
-    for ticket in tickets:
+    for i in range(len(tickets)):
         date1 = date.today()
-        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        date2 = datetime.strptime(tickets[i]["date"], "%d/%m/%Y").date()
         if (date1 > date2 and date1 != date2):
-            tickets.remove(ticket)
+            del tickets[i]
     return render_template('index.html', user=user, tickets=tickets)
 
 # gets ticket info from form and renders sell page
