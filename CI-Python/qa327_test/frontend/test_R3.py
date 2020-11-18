@@ -63,7 +63,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 
-	def test_this_page_header(self, *_):
+	def test_this_page_header(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -85,7 +85,7 @@ class test_R3(BaseCase):
 		self.assert_text("Hi test_frontend", "#welcome-header")
 
 
-	def test_this_page_user_balance(self, *_):
+	def test_this_page_user_balance(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -110,7 +110,7 @@ class test_R3(BaseCase):
 		self.assert_text("Balance: {{ user.balance }}", "#user_balance")
 
 
-	def test_this_page_logout_link(self, *_):
+	def test_this_page_logout_link(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -134,7 +134,7 @@ class test_R3(BaseCase):
 		self.assert_element("#logout_link")
 
 
-	def test_this_page_all_tickets(self, *_):
+	def test_this_page_all_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -160,7 +160,7 @@ class test_R3(BaseCase):
 		self.assert_text("1 11/17/2020 test_frontend@test.com", "#tickets div p")
 
 
-	def test_this_page_sell_tickets(self, *_):
+	def test_this_page_sell_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -187,7 +187,7 @@ class test_R3(BaseCase):
 		self.assert_element("#expireDate")
 
 
-	def test_this_page_buy_tickets(self, *_):
+	def test_this_page_buy_tickets(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -212,7 +212,7 @@ class test_R3(BaseCase):
 		self.assert_element("#buyQuantity")
 
 
-	def test_this_page_redirect_to_sell(self, *_):
+	def test_this_page_redirect_to_sell(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -239,7 +239,7 @@ class test_R3(BaseCase):
 		self.assert_element("#sell_header")
 
 
-	def test_this_page_redirect_to_buy(self, *_):
+	def test_this_page_redirect_to_buy(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -266,7 +266,7 @@ class test_R3(BaseCase):
 		self.assert_element("#buy_header")
 
 
-	def test_this_page_redirect_to_update(self, *_):
+	def test_this_page_redirect_to_update(self):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
