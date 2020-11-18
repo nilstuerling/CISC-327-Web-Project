@@ -44,10 +44,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 
 	def test_this_page_header(self):
@@ -65,10 +65,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 		self.assert_text("Hi test_frontend", "#welcome-header")
 
 
@@ -87,10 +87,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test user balance
 		self.assert_element("#user_balance")
@@ -112,10 +112,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test logout link // added id to logout link
 		self.assert_element("#logout_link")
@@ -136,10 +136,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test that all ticket information is displayed
 		self.assert_element("#tickets div h4")
@@ -162,10 +162,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
 		self.assert_element("#name")
@@ -189,10 +189,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
 		self.assert_element("#buyName")
@@ -214,10 +214,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
 		self.click('input[type="submit", id="btn-submit"]')
@@ -241,10 +241,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
 		self.click('input[type="submit", id="btn-submit2"]')
@@ -268,10 +268,10 @@ class test_R3(BaseCase):
 		self.click('input[type="submit"]')
 
 		# Open login page again
-	#	self.open(base_url + '/login')
+		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-	#	self.assert_element("#welcome-header")
+		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
 		self.click('input[type="submit", id="btn-submit3"]')
