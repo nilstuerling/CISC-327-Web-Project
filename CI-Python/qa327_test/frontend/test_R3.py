@@ -233,7 +233,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.click('input[type="submit"]')
+		self.click('input[type="submit", id="btn-submit"]')
 
 		# Test on sell page now
 		self.assert_element("#sell_header")
@@ -259,8 +259,8 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
-		self.click('input[type="submit"]')
+		# Test buy ticket form
+		self.click('input[type="submit", id="btn-submit2"]')
 
 		# Test on buy page now
 		self.assert_element("#buy_header")
@@ -287,7 +287,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.click('input[type="submit"]')
+		self.click('input[type="submit", id="btn-submit3"]')
 
 		# Test on update page now
 		self.assert_element("#update_header")
