@@ -21,10 +21,10 @@ test_user = User(
 
 # Mock some sample tickets
 test_tickets = [
-    {'name': 't1', 'price': '100', 'date': '12/24/2020', 'quantity':'1', 'email':'test_frontend@test.com'}
+    {'name': 't1', 'price': '100', 'date': '24/12/2020', 'quantity':'1', 'email':'test_frontend@test.com'}
 ]
 
-
+@pytest.mark.usefixtures('server')
 class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
