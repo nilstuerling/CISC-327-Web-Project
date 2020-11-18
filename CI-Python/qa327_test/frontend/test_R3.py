@@ -25,6 +25,8 @@ test_tickets = [
 ]
 
 @pytest.mark.usefixtures('server')
+@patch('qa327.backend.get_user', return_value=test_user)
+@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
@@ -51,7 +53,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_header(self):
+	def test_this_page_header(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -74,7 +76,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_user_balance(self):
+	def test_this_page_user_balance(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -100,7 +102,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_logout_link(self):
+	def test_this_page_logout_link(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -125,7 +127,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_all_tickets(self):
+	def test_this_page_all_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -152,7 +154,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_sell_tickets(self):
+	def test_this_page_sell_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -180,7 +182,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_buy_tickets(self):
+	def test_this_page_buy_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -206,7 +208,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_redirect_to_sell(self):
+	def test_this_page_redirect_to_sell(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -234,7 +236,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_redirect_to_buy(self):
+	def test_this_page_redirect_to_buy(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -262,7 +264,7 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-	def test_this_page_redirect_to_update(self):
+	def test_this_page_redirect_to_update(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
