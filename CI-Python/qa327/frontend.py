@@ -208,7 +208,7 @@ def update_form_post():
 @app.route('/update', methods=['GET'])
 def update_form_get():
 	if 'logged_in' in session:
-		return "<html>tmp</html>"
+		return redirect('/')
 	else:
 		return redirect('/login')
 
