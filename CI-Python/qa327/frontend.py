@@ -165,7 +165,7 @@ def sell_form_post():
 		expireDate = request.form.get('expireDate')
 		return render_template('sell.html')
 	else:
-		return redirect('/')
+		return redirect('/login')
 
 
 @app.route('/sell', methods=['GET'])
@@ -183,7 +183,7 @@ def buy_form_post():
 		quantity = request.form.get('buyQuantity')
 		return render_template('buy.html')
 	else:
-		return redirect('/')
+		return redirect('/login')
 
 
 @app.route('/buy', methods=['GET'])
@@ -203,7 +203,7 @@ def update_form_post():
 		expireDate = request.form.get('updateExpireDate')
 		return render_template('update.html')
 	else:
-		return redirect('/')
+		return redirect('/login')
 
 @app.route('/update', methods=['GET'])
 def update_form_get():
