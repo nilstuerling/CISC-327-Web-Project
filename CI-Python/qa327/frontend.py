@@ -31,7 +31,7 @@ def register_post():
     error_message = None
 
     if password != password2:
-        error_message = "Password format"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateEmail(email):
         error_message = "Email format is incorrect"
