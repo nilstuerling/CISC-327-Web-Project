@@ -31,16 +31,16 @@ def register_post():
     error_message = None
 
     if password != password2:
-        error_message = "The passwords do not match"
+        error_message = "Password format"
 
     elif not bn.validateEmail(email):
-        error_message = "Email format error"
+        error_message = "Email format is incorrect"
 
     elif not bn.validatePassword(password):
-        error_message = "Password not strong enough"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateUserName(name):
-        error_message = "Username format error"
+        error_message = "Username format is incorrect"
     else:
         user = bn.get_user(email)
         if user:

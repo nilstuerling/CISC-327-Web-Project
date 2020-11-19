@@ -155,7 +155,7 @@ class TestRegistered(BaseCase):
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("Email format error", "#message")
+        self.assert_text("Email format is incorrect", "#message")
 
     # Check if password must meet strength requirements
     def test_password_valid(self):
@@ -167,28 +167,28 @@ class TestRegistered(BaseCase):
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("Password not strong enough", "#message")
+        self.assert_text("Password format is incorrect", "#message")
 
         # Password must contain at least one uppercase
         self.register_params(valid_fields.email, valid_fields.name, "passw!", "passw!")
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("Password not strong enough", "#message")
+        self.assert_text("Password format is incorrect", "#message")
 
         # Password must contain at least one lowercase
         self.register_params(valid_fields.email, valid_fields.name, "PASSW!", "PASSW!")
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("Password not strong enough", "#message")
+        self.assert_text("Password format is incorrect", "#message")
 
         # Password must contain at least one special character
         self.register_params(valid_fields.email, valid_fields.name, "Passwd", "Passwd")
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("Password not strong enough", "#message")
+        self.assert_text("Password format is incorrect", "#message")
 
     #########
     # R2.6 Check if both passwords must be the same
@@ -201,7 +201,7 @@ class TestRegistered(BaseCase):
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check error message
         self.assert_element("#message")
-        self.assert_text("The passwords do not match", "#message")
+        self.assert_text("Password format is incorrect", "#message")
 
     #########
     # R2.7 Username non-empty, alphanumeric with no leading or trailing spaces
@@ -225,21 +225,21 @@ class TestRegistered(BaseCase):
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check for error message
         self.assert_element("#message")
-        self.assert_text("Username format error", "#message")
+        self.assert_text("Username format is incorrect", "#message")
 
         # Registering name with trailing spaces
         self.register_params(valid_fields.email, "test ", valid_fields.password, valid_fields.password)
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check for error message
         self.assert_element("#message")
-        self.assert_text("Username format error", "#message")
+        self.assert_text("Username format is incorrect", "#message")
 
         # Registering name with special characters
         self.register_params(valid_fields.email, "!!!!!", valid_fields.password, valid_fields.password)
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check for error message
         self.assert_element("#message")
-        self.assert_text("Username format error", "#message")
+        self.assert_text("Username format is incorrect", "#message")
 
     #########
     # R2.8 Check Username length
@@ -252,14 +252,14 @@ class TestRegistered(BaseCase):
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check for error message
         self.assert_element("#message")
-        self.assert_text("Username format error", "#message")
+        self.assert_text("Username format is incorrect", "#message")
 
         # Try username too long
         self.register_params(valid_fields.email, "anticonstitutionnell", valid_fields.password, valid_fields.password)
         self.assert_equal("Register", self.get_title())  # R2.9 stays on page for formatting error
         # Check for error message
         self.assert_element("#message")
-        self.assert_text("Username format error", "#message")
+        self.assert_text("Username format is incorrect", "#message")
 
     #########
     # R2.9 Refer to tests R2.5 through R2.8
