@@ -257,7 +257,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
-		self.click('input[type="submit", id="btn-submit2"]')
+		self.click('input[type="submit", "#btn-submit2"]')
 
 		# Test on buy page now
 		self.assert_element("#buy_header")
