@@ -28,7 +28,7 @@ def validatePassword(password):
     if not any(char.islower() for char in password):
         return False
     # Check password contains at least 1 character that is not alphanumeric (i.e. special character, including whitespace)
-    if not any(char.isalnum() for char in password):
+    if not any(not char.isalnum() for char in password):
         return False
     return True
 
@@ -85,7 +85,6 @@ def register_user(email, name, password, password2):
     new_user = User(email=email, name=name, password=hashed_pw, balance=5000)
     db.session.add(new_user)
     db.session.commit()
-    print("\n\nLMAOXD\n\n")
     return None
 
 # Gets all tickets in tickets database and returns a list of all tickets
