@@ -155,6 +155,7 @@ def profile(user):
             del tickets[i]
     return render_template('index.html', user=user, tickets=tickets)
 
+
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
 def sell_form_post():
@@ -162,7 +163,12 @@ def sell_form_post():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expireDate = request.form.get('expireDate')
-    return render_template('sell.html')
+    sell = bn.sell_ticket(name,quantity,price,expireDate)
+    if (sell == True):
+        print_message = "Success"
+    else:
+        print_message = "Error, unable to sell ticket"
+    return redirect('/', print_message)
 
 
 # Gets ticket info from form and renders buy page
@@ -170,7 +176,12 @@ def sell_form_post():
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
-    return render_template('buy.html')
+    buy = bn.buy_ticket(name,quantity)
+    if (buy == True):
+        print_message = "Success"
+    else:
+        print_message = "Error, unable to buy ticket"
+    return redirect('/', print_message)
 
 
 # gets ticket info from form and renders update ticket page
@@ -180,7 +191,12 @@ def update_form_post():
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
-    return render_template('update.html')
+    update = bn.update_ticket(name,quantity,price,expireDate)
+    if (update == True):
+        print_message = "Success"
+    else:
+        print_message = "Error, unable to update ticket"
+    return redirect('/',print_message)
 
 # 404 error
 @app.errorhandler(404)

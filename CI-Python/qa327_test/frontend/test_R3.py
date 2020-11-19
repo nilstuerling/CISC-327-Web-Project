@@ -45,9 +45,6 @@ class test_R3(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Open login page again
-#		self.open(base_url + '/login')
-
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
@@ -66,9 +63,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-#		self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
@@ -89,9 +83,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-	#	self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
@@ -116,9 +107,6 @@ class test_R3(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Open login page again
-		#self.open(base_url + '/login')
-
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
@@ -140,9 +128,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-		#self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
@@ -167,9 +152,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-		#self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
@@ -196,9 +178,6 @@ class test_R3(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Open login page again
-		#self.open(base_url + '/login')
-
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
@@ -221,9 +200,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-		#self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
@@ -250,14 +226,11 @@ class test_R3(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Open login page again
-		#self.open(base_url + '/login')
-
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
-		self.click('input[type="submit", "#btn-submit2"]')
+		self.click('buy_button')
 
 		# Test on buy page now
 		self.assert_element("#buy_header")
@@ -277,9 +250,6 @@ class test_R3(BaseCase):
 
 		# Click submit button
 		self.click('input[type="submit"]')
-
-		# Open login page again
-		#self.open(base_url + '/login')
 
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")

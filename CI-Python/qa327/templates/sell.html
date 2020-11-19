@@ -6,4 +6,25 @@
 
 {% block content %}
 <h2 id="sell_header">What would you like to sell today {{ user.name }} ?</h2>
+<br>
+<div>
+<h3>Sell Tickets</h3>
+<form method="post">
+  <div class="form-group" style="margin-bottom:15px;">
+    <label for="name">Name</label>
+    <input class="form-control" name="name" id="name" required>
+    <label for="quantity">Quantity</label>
+    <input class="form-control" name="quantity" id="quantity" required>
+    <label for="price">Price</label>
+    <input class="form-control" name="price" id="price" required>
+    <label for="expireDate">Expiration Date</label>
+    <input class="form-control" name="expireDate" id="expireDate" required>
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
+  </div>
+</form>
+<br>
+</div>
+<br>
+<a id="logout_link" href='/logout'>logout</a>
+<br>
 {% endblock %}
