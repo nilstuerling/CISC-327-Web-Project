@@ -32,4 +32,3 @@ zipp==0.6.0
 
 flask-pytest
 seleniumbase
-collections
