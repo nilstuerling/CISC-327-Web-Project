@@ -157,7 +157,7 @@ def profile(user):
 
 
 # gets ticket info from form and renders sell page
-@app.route('/sell', methods=['POST'])
+@app.route('/', methods=['POST'])
 def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
@@ -168,11 +168,11 @@ def sell_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to sell ticket"
-    return redirect('/', print_message)
+    return redirect('/sell', print_message)
 
 
 # Gets ticket info from form and renders buy page
-@app.route('/buy', methods=['POST'])
+@app.route('/', methods=['POST'])
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
@@ -181,11 +181,11 @@ def buy_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to buy ticket"
-    return redirect('/', print_message)
+    return redirect('/buy', print_message)
 
 
 # gets ticket info from form and renders update ticket page
-@app.route('/update', methods=['POST'])
+@app.route('/', methods=['POST'])
 def update_form_post():
     name = request.form.get('updateName')
     quantity = request.form.get('updateQuantity')
@@ -196,7 +196,7 @@ def update_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to update ticket"
-    return redirect('/',print_message)
+    return redirect('/update',print_message)
 
 # 404 error
 @app.errorhandler(404)
