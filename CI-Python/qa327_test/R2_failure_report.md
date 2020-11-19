@@ -6,6 +6,8 @@
 * Failing a conditional inside wrapper function frontend.authenticate, and redirecting 
 to logout instead
     * Fixed by mocking backend.login_user to return valid_user instance
+    * Also added similar frontend.authenticate-like functionality in frontend '/register' GET method, to not only 
+    check if user is logged in but if user exists
 
 ### R2.2
 * Could not directly validate an html page rendering with Seleniumbase
