@@ -229,7 +229,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.click('input[type="submit"]', 'sell_form')
+		self.click('input[type="submit"]', "#sell_form")
 
 		# Test on sell page now
 		self.assert_element("#sell_header")
