@@ -140,6 +140,7 @@ def authenticate(inner_function):
             return redirect('/login')
 
     # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
     return wrapped_inner
 
 
@@ -164,6 +165,7 @@ def profile(user):
 
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
+@authenticate
 def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
@@ -172,22 +174,45 @@ def sell_form_post():
     return render_template('sell.html')
 
 
+@app.route('/sell', methods=['GET'])
+def sell_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
+
 # Gets ticket info from form and renders buy page
 @app.route('/buy', methods=['POST'])
+@authenticate
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
     return render_template('buy.html')
 
 
+@app.route('/buy', methods=['GET'])
+def buy_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
+
 # gets ticket info from form and renders update ticket page
 @app.route('/update', methods=['POST'])
+@authenticate
 def update_form_post():
     name = request.form.get('updateName')
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
     return render_template('update.html')
+
+@app.route('/update', methods=['GET'])
+def update_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
 
 # 404 error
 @app.errorhandler(404)
