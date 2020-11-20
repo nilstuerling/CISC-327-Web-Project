@@ -15,14 +15,16 @@ The html templates are stored in the 'templates' folder.
 # renders register page
 @app.route('/register', methods=['GET'])
 def register_get():
+    # Check if there is an existing logged in user
     if "logged_in" in session:
         email = session['logged_in']
         user = bn.get_user(email)
+
         if user:
-            return redirect('/')
+            return redirect('/')    # redirect to user profile page
         else:
-            return redirect('/logout')
-    # templates are stored in the templates folder
+            return redirect('/logout')  # log out of invalid session
+
     return render_template('register.html', message='')
 
 
@@ -36,21 +38,21 @@ def register_post():
     error_message = None
 
     if password != password2:
-        error_message = "The passwords do not match"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateEmail(email):
-        error_message = "Email format error"
+        error_message = "Email format is incorrect"
 
     elif not bn.validatePassword(password):
-        error_message = "Password not strong enough"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateUserName(name):
-        error_message = "Username format error"
+        error_message = "Username format is incorrect"
     else:
         user = bn.get_user(email)
         if user:
             error_message = "This email has been ALREADY used"
-        elif not bn.register_user(email, name, password, password2):
+        elif bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
@@ -64,7 +66,13 @@ def register_post():
 @app.route('/login', methods=['GET'])
 def login_get():
     if "logged_in" in session:
-        return redirect('/')
+        email = session['logged_in']
+        user = bn.get_user(email)
+
+        if user:
+            return redirect('/')  # redirect to user profile page
+        else:
+            return redirect('/logout')  # log out of invalid session
     return render_template('login.html', message='Please login')
 
 
@@ -135,11 +143,14 @@ def authenticate(inner_function):
                 # if the user exists, call the inner_function
                 # with user as parameter
                 return inner_function(user)
+            else:
+                return redirect('/logout')
         else:
             # else, redirect to the login page
             return redirect('/login')
 
     # return the wrapped version of the inner_function:
+    wrapped_inner.__name__ = inner_function.__name__
     return wrapped_inner
 
 
@@ -164,6 +175,7 @@ def profile(user):
 
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
+@authenticate
 def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
@@ -172,22 +184,45 @@ def sell_form_post():
     return render_template('sell.html')
 
 
+@app.route('/sell', methods=['GET'])
+def sell_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
+
 # Gets ticket info from form and renders buy page
 @app.route('/buy', methods=['POST'])
+@authenticate
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
     return render_template('buy.html')
 
 
+@app.route('/buy', methods=['GET'])
+def buy_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
+
 # gets ticket info from form and renders update ticket page
 @app.route('/update', methods=['POST'])
+@authenticate
 def update_form_post():
     name = request.form.get('updateName')
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
     return render_template('update.html')
+
+@app.route('/update', methods=['GET'])
+def update_form_get():
+	if 'logged_in' in session:
+		return redirect('/')
+	else:
+		return redirect('/login')
 
 # 404 error
 @app.errorhandler(404)
