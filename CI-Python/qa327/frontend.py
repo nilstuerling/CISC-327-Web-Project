@@ -148,11 +148,14 @@ def profile(user):
     today = date.today()
     todayDate = today.strftime("%d/%m/%y")
     tickets = bn.get_all_tickets()
+    expiredTickets = []
     for i in range(len(tickets)):
         date1 = date.today()
         date2 = datetime.strptime(tickets[i]["date"], "%d/%m/%Y").date()
         if (date1 > date2 and date1 != date2):
-            del tickets[i]
+            expiredTickets.append(i)
+    for j in range(len(expiredTickets)):
+        del tickets[expiredTickets[j]]
     return render_template('index.html', user=user, tickets=tickets)
 
 
