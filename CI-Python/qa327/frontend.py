@@ -157,7 +157,7 @@ def profile(user):
 
 
 # gets ticket info from form and renders sell page
-@app.route('/', methods=['POST'])
+@app.route('/sell', methods=['POST'])
 def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
