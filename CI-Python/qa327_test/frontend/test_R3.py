@@ -237,7 +237,7 @@ class test_R3(BaseCase):
 		self.click('input[value="Sell"]')
 
 		# Test on sell page now
-		self.assert_element("#sell_header")
+		self.click("Sell_Button")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -262,7 +262,7 @@ class test_R3(BaseCase):
 		self.click('input[value="Buy"]')
 
 		# Test on buy page now
-		self.assert_element("#buy_header")
+		self.click("Buy_Button")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -291,7 +291,7 @@ class test_R3(BaseCase):
 		self.click('input[value="Update"]')
 
 		# Test on update page now
-		self.assert_element("#update_header")
+		self.click("Update_Button")
 
 
 
