@@ -168,7 +168,7 @@ def sell_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to sell ticket"
-    return redirect('/sell', print_message)
+    return render_template('sell.html', print_message=print_message)
 
 
 # Gets ticket info from form and renders buy page
