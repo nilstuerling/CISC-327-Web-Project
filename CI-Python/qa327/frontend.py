@@ -166,7 +166,7 @@ def sell_form_post():
     quantity = request.form.get['quantity']
     price = request.form.get['price']
     expireDate = request.form.get['expireDate']
-    sell = bn.sell_ticket(name,quantity,price,expireDate)
+    sell = bn.sell_ticket(name, quantity, price, expireDate)
     if (sell == True):
         print_message = "Success"
     else:
@@ -179,7 +179,7 @@ def sell_form_post():
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
-    buy = bn.buy_ticket(name,quantity)
+    buy = bn.buy_ticket(name, quantity)
     if (buy == True):
         print_message = "Success"
     else:
@@ -194,7 +194,7 @@ def update_form_post():
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
-    update = bn.update_ticket(name,quantity,price,expireDate)
+    update = bn.update_ticket(name, quantity, price, expireDate)
     if (update == True):
         print_message = "Success"
     else:
