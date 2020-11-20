@@ -187,6 +187,31 @@ class test_R3(BaseCase):
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	def test_this_page_update_tickets(self, *_):
+		# Open logout page, invalid any logged-in sessions that may exist
+		self.open(base_url + '/logout')
+
+		# Open login page
+		self.open(base_url + '/login')
+
+		# Fill email and password
+		self.type("#email", valid_test_user_email)
+		self.type("#password", valid_test_user_password)
+
+		# Click submit button
+		self.click('input[type="submit"]')
+
+		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
+		self.assert_element("#welcome-header")
+
+		# Test sell ticket form
+		self.assert_element("#updateName")
+		self.assert_element("#updateQuantity")
+		self.assert_element("#updatePrice")
+		self.assert_element("#updateExpireDate")
+
+	@patch('qa327.backend.get_user', return_value=test_user)
+	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 	def test_this_page_redirect_to_sell(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -205,14 +230,14 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.click('#Sell')
-
-		# Test on sell page now
-		self.assert_element("#sell_header")
 		self.type("#name", 't1')
 		self.type("#quantity", '1')
 		self.type("#price", '100')
 		self.type("#expireDate", '24/12/2020')
+		self.click('input[value="Sell"]')
+
+		# Test on sell page now
+		self.assert_element("#sell_header")
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -234,12 +259,10 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
-		self.click('#Buy')
+		self.click('input[value="Buy"]')
 
 		# Test on buy page now
 		self.assert_element("#buy_header")
-		self.type("#buyName", 't1')
-		self.type("#buyQuantity", '1')
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -261,14 +284,14 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.click('#Update')
-
-		# Test on update page now
-		self.assert_element("#update_header")
 		self.type("#updateName", 't1')
 		self.type("#updateQuantity", '1')
 		self.type("#updatePrice", '100')
 		self.type("#updateExpireDate", '24/12/2020')
+		self.click('input[value="Update"]')
+
+		# Test on update page now
+		self.assert_element("#update_header")
 
 
 

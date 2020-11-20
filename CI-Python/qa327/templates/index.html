@@ -11,13 +11,57 @@
 <div>
   <h2 id="user_balance">Balance: {{ user.balance }}</h2>
 </div>
+
+<div>
+<h3>Sell Tickets</h3>
+<form method="post">
+  <div class="form-group" style="margin-bottom:15px;">
+    <label for="name">Name</label>
+    <input class="form-control" name="name" id="name" required>
+    <label for="quantity">Quantity</label>
+    <input class="form-control" name="quantity" id="quantity" required>
+    <label for="price">Price</label>
+    <input class="form-control" name="price" id="price" required>
+    <label for="expireDate">Expiration Date</label>
+    <input class="form-control" name="expireDate" id="expireDate" required>
+    <input onclick="location.href='sell.html';" class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
+  </div>
+</form>
 <br>
-<button id="Sell" type="button" onclick="location.href='sell.html';" >Sell Tickets</button>
+</div>
+
+<div>
+<h3>Buy Tickets</h3>
+<form method="post" >
+  <div class="form-group" style="margin-bottom:15px;">
+    <label for="buyName">Name</label>
+    <input class="form-control" name="buyName" id="buyName" required>
+    <label for="buyQuantity">Quantity</label>
+    <input class="form-control" name="buyQuantity" id="buyQuantity" required>
+    <input onclick="location.href='buy.html';" class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Buy">
+  </div>
+</form>
 <br>
-<button id="Buy" type="button" onclick="location.href='buy.html';">Buy Tickets</button>
+</div>
+
+<div>
+<h3>Update Tickets</h3>
+<form method="post">
+  <div class="form-group" style="margin-bottom:15px;">
+    <label for="updateName">Name</label>
+    <input class="form-control" name="updateName" id="updateName" required>
+    <label for="updateQuantity">Quantity</label>
+    <input class="form-control" name="updateQuantity" id="updateQuantity" required>
+    <label for="updatePrice">Price</label>
+    <input class="form-control" name="updatePrice" id="updatePrice" required>
+    <label for="updateExpireDate">Expiration Date</label>
+    <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
+    <input onclick="location.href='update.html';" class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
+  </div>
+</form>
 <br>
-<button id="Update" type="button" onclick="location.href='update.html';">Update Tickets</button>
-<br>
+</div>
+
 <div id="tickets" style="margin-bottom:15px;">
   <h2 >Here are all available tickets</h2>
 {% for ticket in tickets %}

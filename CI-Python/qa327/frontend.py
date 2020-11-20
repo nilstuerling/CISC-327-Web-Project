@@ -167,7 +167,11 @@ def sell_form_post():
     price = request.form.get('price')
     expireDate = request.form.get('expireDate')
     sell = bn.sell_ticket(name, quantity, price, expireDate)
-    return render_template('index.html')
+    if (sell == True):
+        print_message = "Success"
+    else:
+        print_message = "Error, unable to buy ticket"
+    return redirect('/sell', print_message)
 
 
 # Gets ticket info from form and renders buy page
@@ -180,7 +184,7 @@ def buy_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to buy ticket"
-    return render_template('index.html')
+    return redirect('/buy', print_message)
 
 
 # gets ticket info from form and renders update ticket page
@@ -195,7 +199,7 @@ def update_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to update ticket"
-    return render_template('index.html')
+    return redirect('/update',print_message)
 
 # 404 error
 @app.errorhandler(404)
