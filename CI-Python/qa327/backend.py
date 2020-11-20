@@ -32,6 +32,7 @@ def validatePassword(password):
         return False
     return True
 
+
 # Function that validates user input username
 def validateUserName(username):
     # Check username length
