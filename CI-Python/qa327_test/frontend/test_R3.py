@@ -264,7 +264,7 @@ class test_R3(BaseCase):
 		self.type("#updateName", 't1')
 		self.type("#updateQuantity", '1')
 		self.type("#updatePrice", '100')
-		self.type("#UpdateExpireDate", '24/12/2020')
+		self.type("#updateExpireDate", '24/12/2020')
 		self.click('input[value="Update"]')
 
 		# Test on update page now
