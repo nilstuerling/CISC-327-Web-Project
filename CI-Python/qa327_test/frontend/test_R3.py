@@ -234,6 +234,8 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
+		self.type("#buyName", 't1')
+		self.type("#buyQuantity", '1')
 		self.click('input[value="Buy"]')
 
 		# Test on buy page now
@@ -259,8 +261,10 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.type("#email", valid_test_user_email)
-		self.type("#password", valid_test_user_password)
+		self.type("#updateName", 't1')
+		self.type("#updateQuantity", '1')
+		self.type("#updatePrice", '100')
+		self.type("#UpdateExpireDate", '24/12/2020')
 		self.click('input[value="Update"]')
 
 		# Test on update page now
