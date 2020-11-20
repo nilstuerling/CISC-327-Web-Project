@@ -157,15 +157,13 @@ def profile(user):
 
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
+@authenticate
 def sell_form_post():
-	if 'logged_in' in session:
-		name = request.form.get('name')
-		quantity = request.form.get('quantity')
-		price = request.form.get('price')
-		expireDate = request.form.get('expireDate')
-		return render_template('sell.html')
-	else:
-		return redirect('/login')
+    name = request.form.get('name')
+    quantity = request.form.get('quantity')
+    price = request.form.get('price')
+    expireDate = request.form.get('expireDate')
+    return render_template('sell.html')
 
 
 @app.route('/sell', methods=['GET'])
@@ -177,13 +175,11 @@ def sell_form_get():
 
 # Gets ticket info from form and renders buy page
 @app.route('/buy', methods=['POST'])
+@authenticate
 def buy_form_post():
-	if 'logged_in' in session:
-		name = request.form.get('buyName')
-		quantity = request.form.get('buyQuantity')
-		return render_template('buy.html')
-	else:
-		return redirect('/login')
+    name = request.form.get('buyName')
+    quantity = request.form.get('buyQuantity')
+    return render_template('buy.html')
 
 
 @app.route('/buy', methods=['GET'])
@@ -195,15 +191,13 @@ def buy_form_get():
 
 # gets ticket info from form and renders update ticket page
 @app.route('/update', methods=['POST'])
+@authenticate
 def update_form_post():
-	if 'logged_in' in session:
-		name = request.form.get('updateName')
-		quantity = request.form.get('updateQuantity')
-		price = request.form.get('updatePrice')
-		expireDate = request.form.get('updateExpireDate')
-		return render_template('update.html')
-	else:
-		return redirect('/login')
+    name = request.form.get('updateName')
+    quantity = request.form.get('updateQuantity')
+    price = request.form.get('updatePrice')
+    expireDate = request.form.get('updateExpireDate')
+    return render_template('update.html')
 
 @app.route('/update', methods=['GET'])
 def update_form_get():
