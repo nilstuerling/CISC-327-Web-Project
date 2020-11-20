@@ -162,10 +162,10 @@ def profile(user):
 # gets ticket info from form and renders sell page
 @app.route('/sell', methods=['POST'])
 def sell_form_post():
-    name = request.form.get('name')
-    quantity = request.form.get('quantity')
-    price = request.form.get('price')
-    expireDate = request.form.get('expireDate')
+    name = request.form.get['name']
+    quantity = request.form.get['quantity']
+    price = request.form.get['price']
+    expireDate = request.form.get['expireDate']
     sell = bn.sell_ticket(name,quantity,price,expireDate)
     if (sell == True):
         print_message = "Success"
