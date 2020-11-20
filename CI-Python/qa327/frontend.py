@@ -15,9 +15,14 @@ The html templates are stored in the 'templates' folder.
 # renders register page
 @app.route('/register', methods=['GET'])
 def register_get():
+    # Check if there is an existing logged in user
     if "logged_in" in session:
-        return redirect('/')
-    # templates are stored in the templates folder
+        email = session['logged_in']
+        user = bn.get_user(email)
+        if user:                        # if the user is logged in and exists, redirect to home page
+            return redirect('/')
+
+    # render register page if not logged in
     return render_template('register.html', message='')
 
 
@@ -31,21 +36,21 @@ def register_post():
     error_message = None
 
     if password != password2:
-        error_message = "The passwords do not match"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateEmail(email):
-        error_message = "Email format error"
+        error_message = "Email format is incorrect"
 
     elif not bn.validatePassword(password):
-        error_message = "Password not strong enough"
+        error_message = "Password format is incorrect"
 
     elif not bn.validateUserName(name):
-        error_message = "Username format error"
+        error_message = "Username format is incorrect"
     else:
         user = bn.get_user(email)
         if user:
             error_message = "This email has been ALREADY used"
-        elif not bn.register_user(email, name, password, password2):
+        elif bn.register_user(email, name, password, password2):
             error_message = "Failed to store user info."
     # if there is any error messages when registering new user
     # at the backend, go back to the register page.
@@ -128,6 +133,8 @@ def authenticate(inner_function):
                 # if the user exists, call the inner_function
                 # with user as parameter
                 return inner_function(user)
+            else:
+                return redirect('/logout')
         else:
             # else, redirect to the login page
             return redirect('/login')
