@@ -92,7 +92,7 @@ def login_post():
         # code 303 is to force a 'GET' request
         return redirect('/', code=303)
     else:
-        return render_template('login.html', message='email/password combination incorrect')
+        return render_template('login.html', message='Email/password combination incorrect')
 
 
 # logs current user out of session

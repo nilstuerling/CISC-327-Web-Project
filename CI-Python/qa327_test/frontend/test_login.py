@@ -43,6 +43,7 @@ test_tickets = [
 
 class FrontEndLoginPageTest(BaseCase):
 
+    # R1.1 - If the user hasn't logged in, show the login page
     def test_display_login(self):
         
         # Open logout page, invalid any logged-in sessions that may exist
@@ -68,6 +69,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Please login", "#message")
 
     
+    # R1.2 - The login page has a message that by default says 'please login'
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_logged_in_redirect_to_user_profile(self, *_):
@@ -91,7 +93,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Test that current page contains #welcome-header (i.e. redirected to user profile page)
         self.assert_element("#welcome-header")
 
-    
+    # R1.3 - If the user has logged in, redirect to the user profile page
     def test_login_page_form(self):
         
         # Open logout page, invalid any logged-in sessions that may exist
@@ -108,7 +110,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_element("#email")
         self.assert_element("#password")
 
-    
+    # R1.4 - The login page provides a login form which requests two fields: email and passwords
     def test_login_post_request(self):
                  
         # Open logout page, invalid any logged-in sessions that may exist
@@ -122,7 +124,7 @@ class FrontEndLoginPageTest(BaseCase):
         method = self.get_attribute("form", "method")
         self.assertEqual("post", method)
 
-        
+    # R1.5 - The login form can be submitted as a POST request to the current URL (/login)
     def test_email_password_not_empty(self):
                          
         # Open logout page, invalid any logged-in sessions that may exist
@@ -156,7 +158,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Test that #password form element has attribute "required" (not allowing empty input)
         self.get_attribute("#password", "required")
 
-    
+    # R1.6 - Email and password both cannot be empty
     def test_email_valid(self):
                                  
         # Open logout page, invalid any logged-in sessions that may exist
@@ -177,7 +179,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_element("#message")
         self.assert_text("Email/Password format is incorrect", "#message")
 
-    
+    # R1.7 - Email has to follow addr-spec defined in RFC 5322
     def test_password_valid(self):
                                          
         # Open logout page, invalid any logged-in sessions that may exist
@@ -238,6 +240,7 @@ class FrontEndLoginPageTest(BaseCase):
         self.assert_text("Email/Password format is incorrect", "#message")
 
 
+    # R1.8 - Password has to meet the required complexity: minimum length 6, at least one upper case, at least one lower case, and at least one special character
     @patch('qa327.backend.login_user', return_value=test_user)
     @patch('qa327.backend.get_user', return_value=test_user)
     def test_valid_email_password_login_success(self, *_):
@@ -258,7 +261,7 @@ class FrontEndLoginPageTest(BaseCase):
         # Test that current page contains #welcome-header element (i.e. on user profile page)
         self.assert_element("#welcome-header")
 
-    
+    # R1.9 - For any formatting errors, render the login page and show the message 'Email/Password format is incorrect.'
     @patch('qa327.backend.login_user', return_value=no_user)
     def test_valid_email_password_login_fail(self, *_):
 
@@ -277,4 +280,4 @@ class FrontEndLoginPageTest(BaseCase):
 
         # Test that current page is login page with correct error message
         self.assert_element("#message")
-        self.assert_text("email/password combination incorrect", "#message")
+        self.assert_text("Email/Password combination incorrect", "#message")
