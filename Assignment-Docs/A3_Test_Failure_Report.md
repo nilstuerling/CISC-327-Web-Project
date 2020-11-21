@@ -1,5 +1,9 @@
 ## Assignment 3 - Failure Report:
 
+### Template Changes
+
+Added *db.drop_all()* to the database so that on startup, a fresh database is created each time. This helped rectify some issues we were having with previously created data, and also allows for safer live testing. Alternative solutions may be reviewed in the future in order to allow persistent data between server starts.
+
 ### R1 Frontend Failure Report
 
 **R1.3** - Fixed implementation in frontend logic for GET request to /login to redirect to user profile page if "logged_in" was in the current session
