@@ -12,18 +12,11 @@ This file defines all unit tests for the /login endpoint.
 The tests will only test the frontend portion of the /login endpoint, and will patch the backend to return specific values for different test cases
 """
 
+# Mock valid email and password for user
 valid_test_user_email="test_frontend@test.com"
 valid_test_user_password="Test_frontend!"
 
 # Mock a sample user
-# test_user = User(
-#     id = 1,
-#     email=valid_test_user_email,
-#     name="test",
-#     password=generate_password_hash(valid_test_user_password),
-#     balance=5000
-# )
-
 test_user = User(
     id = 1,
     email=valid_test_user_email,
