@@ -166,11 +166,14 @@ def profile(user):
     today = date.today()
     todayDate = today.strftime("%d/%m/%y")
     tickets = bn.get_all_tickets()
-    for ticket in tickets:
+    expiredTickets = []
+    for i in range(len(tickets)):
         date1 = date.today()
-        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        date2 = datetime.strptime(tickets[i]["date"], "%d/%m/%Y").date()
         if (date1 > date2 and date1 != date2):
-            tickets.remove(ticket)
+            expiredTickets.append(i)
+    for j in range(len(expiredTickets)):
+        del tickets[expiredTickets[j]]
     return render_template('index.html', user=user, tickets=tickets)
 
 # gets ticket info from form and renders sell page
@@ -181,7 +184,8 @@ def sell_form_post():
     quantity = request.form.get('quantity')
     price = request.form.get('price')
     expireDate = request.form.get('expireDate')
-    return render_template('sell.html')
+    bn.sell_ticket(name, quantity, price, expireDate)
+    return redirect('/')
 
 
 @app.route('/sell', methods=['GET'])
@@ -197,7 +201,8 @@ def sell_form_get():
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
-    return render_template('buy.html')
+    bn.buy_ticket(name, quantity)
+    return redirect('/')
 
 
 @app.route('/buy', methods=['GET'])
@@ -215,7 +220,8 @@ def update_form_post():
     quantity = request.form.get('updateQuantity')
     price = request.form.get('updatePrice')
     expireDate = request.form.get('updateExpireDate')
-    return render_template('update.html')
+    bn.update_ticket(name, quantity, price, expireDate)
+    return redirect('/')
 
 @app.route('/update', methods=['GET'])
 def update_form_get():
