@@ -230,11 +230,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.type("#name", 't1')
-		self.type("#quantity", '1')
-		self.type("#price", '100')
-		self.type("#expireDate", '24/12/2020')
-		self.click('input[value="Sell"]')
+		self.assertEqual("post", self.get_attribute("form[id='sellTicket']", "method"))
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -256,7 +252,7 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test buy ticket form
-		self.click('input[value="Buy"]')
+		self.assertEqual("post", self.get_attribute("form[id='buyTicket']", "method"))
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -278,8 +274,4 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Test sell ticket form
-		self.type("#updateName", 't1')
-		self.type("#updateQuantity", '1')
-		self.type("#updatePrice", '100')
-		self.type("#updateExpireDate", '24/12/2020')
-		self.click('input[value="Update"]')
+		self.assertEqual("post", self.get_attribute("form[id='updateTicket']", "method"))
