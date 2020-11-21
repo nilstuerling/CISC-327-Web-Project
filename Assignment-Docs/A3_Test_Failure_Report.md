@@ -2,7 +2,7 @@
 
 ### Template Changes
 
-Added *db.drop_all()* to the database so that on startup, a fresh database is created each time. This helped rectify some issues we were having with previously created data, and also allows for safer live testing. Alternative solutions may be reviewed in the future in order to allow persistent data between server starts.
+Added *db.drop_all()* to the database so that on startup, a fresh database is created each time. This helped rectify some issues we were having with previously created data, and also allowed for safer live testing. Alternative solutions may be reviewed in the future in order to allow persistent data between server starts.
 
 ### R1 Frontend Failure Report
 
