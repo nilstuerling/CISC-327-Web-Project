@@ -14,7 +14,7 @@
 
 <div>
 <h3>Sell Tickets</h3>
-<form method="post">
+<form action="/sell" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="name">Name</label>
     <input class="form-control" name="name" id="name" required>
@@ -32,13 +32,13 @@
 
 <div>
 <h3>Buy Tickets</h3>
-<form method="post" >
+<form action="/buy" method="post" >
   <div class="form-group" style="margin-bottom:15px;">
     <label for="buyName">Name</label>
     <input class="form-control" name="buyName" id="buyName" required>
     <label for="buyQuantity">Quantity</label>
     <input class="form-control" name="buyQuantity" id="buyQuantity" required>
-    <input onclick="location.href='buy.html';" class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Buy">
+    <input name="buySubmit" class="btn btn-lg btn-primary" type="submit" id="btn-submit2" value="Buy">
   </div>
 </form>
 <br>
@@ -46,7 +46,7 @@
 
 <div>
 <h3>Update Tickets</h3>
-<form method="post">
+<form action="/update" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="updateName">Name</label>
     <input class="form-control" name="updateName" id="updateName" required>
@@ -56,7 +56,7 @@
     <input class="form-control" name="updatePrice" id="updatePrice" required>
     <label for="updateExpireDate">Expiration Date</label>
     <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
-    <input onclick="location.href='update.html';" class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
+    <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
   </div>
 </form>
 <br>
