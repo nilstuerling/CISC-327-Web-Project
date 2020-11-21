@@ -199,7 +199,7 @@ def update_form_post():
         print_message = "Success"
     else:
         print_message = "Error, unable to update ticket"
-    return redirect('/update',print_message)
+    return redirect('/update', print_message)
 
 # 404 error
 @app.errorhandler(404)
