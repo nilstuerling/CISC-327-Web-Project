@@ -160,7 +160,7 @@ def profile(user):
 
 
 # gets ticket info from form and renders sell page
-@app.route('/sell', methods=['POST'])
+@app.route('/', methods=['POST'])
 def sell_form_post():
     name = request.form.get('name')
     quantity = request.form.get('quantity')
@@ -175,7 +175,7 @@ def sell_form_post():
 
 
 # Gets ticket info from form and renders buy page
-@app.route('/buy', methods=['POST'])
+@app.route('/', methods=['POST'])
 def buy_form_post():
     name = request.form.get('buyName')
     quantity = request.form.get('buyQuantity')
@@ -188,7 +188,7 @@ def buy_form_post():
 
 
 # gets ticket info from form and renders update ticket page
-@app.route('/update', methods=['POST'])
+@app.route('/', methods=['POST'])
 def update_form_post():
     name = request.form.get('updateName')
     quantity = request.form.get('updateQuantity')
