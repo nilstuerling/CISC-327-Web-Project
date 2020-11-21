@@ -10,4 +10,4 @@
 
 **R3.8** - Fixed the update feature in the frontend file. Now message is displayed when a ticket is successfully updated else prints error message.
 
-**R3.9** & R3.10 & R3.11 ** - Test case was unable to differentiate between the different forms on the / page. The frontend functions sell_form_post, buy_form_post, and update_form_post take their dedicated forms information as they call the form specific identifiers. Thus the method should work, however failed to show this in testing. 
+**R3.9** R3.10 & R3.10 & R3.11 ** - Test case was unable to differentiate between the different forms on the / page. This was fixed by adding an action attribute to each on of the sell form, buy form and update form. The test case was then changed to assert if the action was correct and redirected to their dedicated pages and if the method, being post, was correct on all forms. This resolved the issue. 
