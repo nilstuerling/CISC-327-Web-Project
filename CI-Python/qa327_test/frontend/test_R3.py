@@ -231,6 +231,7 @@ class test_R3(BaseCase):
 
 		# Test sell ticket form
 		self.assertEqual("post", self.get_attribute("form[id='sellTicket']", "method"))
+		self.assertEqual("/buy", self.get_attribute("form[id='sellTicket']", "action"))
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -253,6 +254,7 @@ class test_R3(BaseCase):
 
 		# Test buy ticket form
 		self.assertEqual("post", self.get_attribute("form[id='buyTicket']", "method"))
+		self.assertEqual("/buy", self.get_attribute("form[id='buyTicket']", "action"))
 
 	@patch('qa327.backend.get_user', return_value=test_user)
 	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -275,3 +277,4 @@ class test_R3(BaseCase):
 
 		# Test sell ticket form
 		self.assertEqual("post", self.get_attribute("form[id='updateTicket']", "method"))
+		self.assertEqual("/buy", self.get_attribute("form[id='updateTicket']", "action"))
