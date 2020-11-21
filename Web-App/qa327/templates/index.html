@@ -9,10 +9,13 @@
 <br>
 
 <div>
-<h3>Sell Tickets</h3>
-<form method="post">
-  <div class="form-group" style="margin-bottom:15px;">
+  <h2 id="user_balance">Balance: {{ user.balance }}</h2>
+</div>
 
+<div>
+<h3>Sell Tickets</h3>
+<form id="sellTicket" action="/sell" method="post">
+  <div class="form-group" style="margin-bottom:15px;">
     <label for="name">Name</label>
     <input class="form-control" name="name" id="name" required>
     <label for="quantity">Quantity</label>
@@ -29,9 +32,8 @@
 
 <div>
 <h3>Buy Tickets</h3>
-<form method="post" >
+<form id="buyTicket" action="/buy" method="post" >
   <div class="form-group" style="margin-bottom:15px;">
-
     <label for="buyName">Name</label>
     <input class="form-control" name="buyName" id="buyName" required>
     <label for="buyQuantity">Quantity</label>
@@ -44,21 +46,19 @@
 
 <div>
 <h3>Update Tickets</h3>
-<form method="post">
+<form id="updateTicket" action="/update" method="post">
   <div class="form-group" style="margin-bottom:15px;">
-
     <label for="updateName">Name</label>
     <input class="form-control" name="updateName" id="updateName" required>
     <label for="updateQuantity">Quantity</label>
     <input class="form-control" name="updateQuantity" id="updateQuantity" required>
     <label for="updatePrice">Price</label>
     <input class="form-control" name="updatePrice" id="updatePrice" required>
-    <label for="expireDate">Expiration Date</label>
+    <label for="updateExpireDate">Expiration Date</label>
     <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
   </div>
 </form>
-
 <br>
 </div>
 
@@ -67,11 +67,11 @@
 {% for ticket in tickets %}
     <div>
         <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
-        <p>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.contact }}  </p>
+        <h5>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.email }}  </h5>
     </div>
 {% endfor %}
 </div>
 <br>
-<a href='/logout'>logout</a>
+<a id="logout_link" href='/logout'>logout</a>
 <br>
 {% endblock %}

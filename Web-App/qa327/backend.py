@@ -28,9 +28,10 @@ def validatePassword(password):
     if not any(char.islower() for char in password):
         return False
     # Check password contains at least 1 character that is not alphanumeric (i.e. special character, including whitespace)
-    if not any(char.isalnum() for char in password):
+    if not any(not char.isalnum() for char in password):
         return False
     return True
+
 
 # Function that validates user input username
 def validateUserName(username):
@@ -83,7 +84,6 @@ def register_user(email, name, password, password2):
     hashed_pw = generate_password_hash(password, method='sha256')
     # store the encrypted password rather than the plain password
     new_user = User(email=email, name=name, password=hashed_pw, balance=5000)
-
     db.session.add(new_user)
     db.session.commit()
     return None
@@ -99,18 +99,18 @@ def sell_ticket(name,quantity,price,expireDate):
     new_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
     db.session.add(new_ticket)
     db.session.commit()
-    return None
+    return True
 
 # Updates ticket with parameters and commits new changes to tickets database
 def update_ticket(name,quantity,price,expireDate):
     updated_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
     db.session.update(updated_ticket)
     db.session.commit()
-    return None
+    return True
 
 # Adds specified ticket to user account, removing specified quantity from database
 def buy_ticket(name,quantity):
     bought_ticket = Tickets(email=User.email,name=name,quantity=quantity)
     db.session.remove(bought_ticket)
     db.session.commit()
-    return None
+    return True

@@ -3,4 +3,4 @@
 db.sqlite
 __pycache__/
 latest_logs/
-
+*.pyc
