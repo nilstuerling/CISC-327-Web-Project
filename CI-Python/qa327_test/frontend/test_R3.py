@@ -28,27 +28,25 @@ test_tickets = [
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 class test_R3(BaseCase):
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.1 - Checks that if the user is not logged in, redirect to login page
 	def test_logged_in_redirect_to_user_profile(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
-		# Open login page
-		self.open(base_url + '/login')
+		# Open homepage while not logged in
+		self.open(base_url + '/')
 
-		# Fill email and password
+		# Redirected to login page and asked to fill email and password
 		self.type("#email", valid_test_user_email)
 		self.type("#password", valid_test_user_password)
 
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
+		# Redirected homepage, check by asserting if #welcome-header exists
 		self.assert_element("#welcome-header")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.2 - Checks if this page shows a header 'Hi {}'.format(user.name)
 	def test_this_page_header(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -63,12 +61,10 @@ class test_R3(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
-		self.assert_element("#welcome-header")
+		# Check that the homepage greets the user with 'Hi {}'.format(user.name)
 		self.assert_text("Hi test_frontend", "#welcome-header")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.3 - Checks if this page shows user balance.
 	def test_this_page_user_balance(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -86,12 +82,11 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test user balance
+		# Check if the user balance exists and shows the correct amount
 		self.assert_element("#user_balance")
 		self.assert_text("5000", "#user_balance")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.4 - Checks if this page shows a logout link, pointing to /logout
 	def test_this_page_logout_link(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -109,11 +104,12 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test logout link // added id to logout link
+		# Check if there exists a log out link on the homepage (the / page)
 		self.assert_element("#logout_link")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.5 - Checks if This page lists all available tickets.
+	# Information including the quantity of each ticket, the owner's email, and the price,
+	# for tickets that are not expired.
 	def test_this_page_all_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -131,13 +127,13 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test that all ticket information is displayed
+		# Checks that all tickets are displayed correctly on the homepage
 		self.assert_element("#tickets div h4")
 		self.assert_text("t1 100", "#tickets div h4")
 		self.assert_text("1 24/12/2020 test_frontend@test.com", "#tickets div h5")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.6 - Checks if this page contains a form that a user can submit new tickets for sell.
+	# Fields: name, quantity, price, expiration date
 	def test_this_page_sell_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -155,14 +151,13 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
+		# Checks that there exists a sell form with the fields: name, quantity, price, expiration date
 		self.assert_element("#name")
 		self.assert_element("#quantity")
 		self.assert_element("#price")
 		self.assert_element("#expireDate")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.7 - Checks if this page contains a form that a user can buy new tickets. Fields: name, quantity
 	def test_this_page_buy_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -180,12 +175,12 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
+		# Checks that there exists a buy form with the fields: name, quantity
 		self.assert_element("#buyName")
 		self.assert_element("#buyQuantity")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.8 - Checks if this page contains a form that a user can update existing tickets.
+	# Fields: name, quantity, price, expiration date
 	def test_this_page_update_tickets(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -203,14 +198,13 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
+		# Checks that there exists an update form with the fields: name, quantity, price, expiration date
 		self.assert_element("#updateName")
 		self.assert_element("#updateQuantity")
 		self.assert_element("#updatePrice")
 		self.assert_element("#updateExpireDate")
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.9 - Checks if ticket-sell can be posted to /sell
 	def test_this_page_redirect_to_sell(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -228,12 +222,11 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
+		# Checks that the post method and the /sell action have been conducted correctly and redirected the user to /sell
 		self.assertEqual("post", self.get_attribute("form[id='sellTicket']", "method"))
 		self.assertEqual(base_url + '/sell', self.get_attribute("form[id='sellTicket']", "action"))
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.10 - Checks if ticket-buy can be posted to /buy
 	def test_this_page_redirect_to_buy(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -251,12 +244,11 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test buy ticket form
+		# Checks that the post method and the /buy action have been conducted correctly and redirected the user to /buy
 		self.assertEqual("post", self.get_attribute("form[id='buyTicket']", "method"))
 		self.assertEqual(base_url + '/buy', self.get_attribute("form[id='buyTicket']", "action"))
 
-	@patch('qa327.backend.get_user', return_value=test_user)
-	@patch('qa327.backend.get_all_tickets', return_value=test_tickets)
+	# R3.11 - Checks if ticket-update can be posted to /update
 	def test_this_page_redirect_to_update(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
@@ -274,6 +266,6 @@ class test_R3(BaseCase):
 		# Test that current page contains #welcome-header (i.e. redirected to user profile page)
 		self.assert_element("#welcome-header")
 
-		# Test sell ticket form
+		# Checks that the post method and the /update action have been conducted correctly and redirected the user to /update
 		self.assertEqual("post", self.get_attribute("form[id='updateTicket']", "method"))
 		self.assertEqual(base_url + '/update', self.get_attribute("form[id='updateTicket']", "action"))
