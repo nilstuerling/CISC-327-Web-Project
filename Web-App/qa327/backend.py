@@ -1,50 +1,12 @@
 from qa327.models import db, User
 from qa327.models import db, Tickets
 from werkzeug.security import generate_password_hash, check_password_hash
-from email_validator import validate_email, EmailNotValidError
 
 """
 This file defines all backend logic that interacts with database and other services
 """
 
-# Function that validates user input email.
-# Uses 3rd party libary email_validator for email validation.
-def validateEmail(email):
-    try:
-        validate_email(email)
-        return True
-    except EmailNotValidError as e:
-        return False
 
-# Function that validates user input password
-def validatePassword(password):
-    # Check password length
-    if len(password) < 6:
-        return False
-    # Check password contains at least 1 uppercase character
-    if not any(char.isupper() for char in password):
-        return False
-    # Check password contains at least 1 lowercase character
-    if not any(char.islower() for char in password):
-        return False
-    # Check password contains at least 1 character that is not alphanumeric (i.e. special character, including whitespace)
-    if not any(not char.isalnum() for char in password):
-        return False
-    return True
-
-
-# Function that validates user input username
-def validateUserName(username):
-    # Check username length
-    if len(username) < 2 or len(username) >= 20:
-        return False
-    # Check if username has leading or trailing space
-    if username[0] == ' ' or username[-1] == ' ':
-        return False
-    # Check if username is alphanumeric
-    elif not all((char.isalnum() or char == ' ') for char in username):
-        return False
-    return True
 
 # Function that returns User object from database from unique email adress
 def get_user(email):
