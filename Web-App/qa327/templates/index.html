@@ -67,24 +67,12 @@
 
 <div id="tickets" style="margin-bottom:15px;">
   <h2 >Here are all available tickets</h2>
-  <table>
-    <tr>
-      <td style="padding-right: 20%;"><h4>Name</h4></td>
-      <td style="padding-right: 20%;"><h4>Price</h4></td>
-      <td style="padding-right: 20%;"><h4>Quantity</h4></td>
-      <td style="padding-right: 20%;"><h4>Expiry Date</h4></td>
-      <td style="padding-right: 20%;"><h4>Email</h4></td>
-    </tr>
-    {% for ticket in tickets %}
-    <tr>
-      <td style="padding-right: 5%;"><h5>{{ ticket.name }}</h5></td>
-      <td style="padding-right: 5%;"><h5>{{ ticket.price }}</h5></td>
-      <td style="padding-right: 5%;"><h5>{{ ticket.quantity }}</h5></td>
-      <td style="padding-right: 5%;"><h5>{{ ticket.date }}</h5></td>
-      <td style="padding-right: 5%;"><h5>{{ ticket.email }}</h5></td>
-    </tr>
-    {% endfor %}
-  </table>
+{% for ticket in tickets %}
+    <div>
+        <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
+        <h5>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.email }}  </h5>
+    </div>
+{% endfor %}
 </div>
 <br>
 <a id="logout_link" href='/logout'>logout</a>
