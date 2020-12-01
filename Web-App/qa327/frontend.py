@@ -261,6 +261,9 @@ def update_form_post(user):
     elif not(bn.validateTicketExpiryDate(expireDate)):
         updateErrorMessage = "Invalid ticket expiry date"
 
+    # Add validation
+    # - The ticket of the given name must exist
+
     if updateErrorMessage:
         return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
 
