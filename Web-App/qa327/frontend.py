@@ -250,7 +250,6 @@ def update_form_post(user):
     quantity = int(request.form.get('updateQuantity'))
     price = int(request.form.get('updatePrice'))
     expireDate = request.form.get('updateExpireDate')
-
     updateErrorMessage = None
     if not(bn.validateTicketName(name)):
         updateErrorMessage = "Invalid ticket name"
@@ -260,10 +259,8 @@ def update_form_post(user):
         updateErrorMessage = "Invalid ticket price"
     elif not(bn.validateTicketExpiryDate(expireDate)):
         updateErrorMessage = "Invalid ticket expiry date"
-
-    # Add validation
-    # - The ticket of the given name must exist
-
+    elif not (bn.validateExistsTicketName(name)):
+        updateErrorMessage = "Invalid ticket name does not exist"
     if updateErrorMessage:
         return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
 
