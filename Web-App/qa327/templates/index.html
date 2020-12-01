@@ -14,16 +14,17 @@
 
 <div>
 <h3>Sell Tickets</h3>
+<h4 id='sellErrorMessage'>{{sellErrorMessage}}</h4>
 <form id="sellTicket" action="/sell" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="name">Name</label>
-    <input class="form-control" name="name" id="name" required>
+    <input class="form-control" name="name" id="name" type="text" required>
     <label for="quantity">Quantity</label>
-    <input class="form-control" name="quantity" id="quantity" required>
+    <input class="form-control" name="quantity" id="quantity" type="number" required>
     <label for="price">Price</label>
-    <input class="form-control" name="price" id="price" required>
+    <input class="form-control" name="price" id="price" type="number" required>
     <label for="expireDate">Expiration Date</label>
-    <input class="form-control" name="expireDate" id="expireDate" required>
+    <input class="form-control" name="expireDate" id="expireDate" type="number" required>
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
   </div>
 </form>
@@ -32,6 +33,7 @@
 
 <div>
 <h3>Buy Tickets</h3>
+<h4 id='buyErrorMessage'>{{buyErrorMessage}}</h4>
 <form id="buyTicket" action="/buy" method="post" >
   <div class="form-group" style="margin-bottom:15px;">
     <label for="buyName">Name</label>
@@ -46,6 +48,7 @@
 
 <div>
 <h3>Update Tickets</h3>
+<h4 id='updateErrorMessage'>{{updateErrorMessage}}</h4>
 <form id="updateTicket" action="/update" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="updateName">Name</label>
@@ -64,12 +67,24 @@
 
 <div id="tickets" style="margin-bottom:15px;">
   <h2 >Here are all available tickets</h2>
-{% for ticket in tickets %}
-    <div>
-        <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
-        <h5>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.email }}  </h5>
-    </div>
-{% endfor %}
+  <table>
+    <tr>
+      <td style="padding-right: 20%;"><h4>Name</h4></td>
+      <td style="padding-right: 20%;"><h4>Price</h4></td>
+      <td style="padding-right: 20%;"><h4>Quantity</h4></td>
+      <td style="padding-right: 20%;"><h4>Expiry Date</h4></td>
+      <td style="padding-right: 20%;"><h4>Email</h4></td>
+    </tr>
+    {% for ticket in tickets %}
+    <tr>
+      <td style="padding-right: 5%;"><h5>{{ ticket.name }}</h5></td>
+      <td style="padding-right: 5%;"><h5>{{ ticket.price }}</h5></td>
+      <td style="padding-right: 5%;"><h5>{{ ticket.quantity }}</h5></td>
+      <td style="padding-right: 5%;"><h5>{{ ticket.date }}</h5></td>
+      <td style="padding-right: 5%;"><h5>{{ ticket.email }}</h5></td>
+    </tr>
+    {% endfor %}
+  </table>
 </div>
 <br>
 <a id="logout_link" href='/logout'>logout</a>
