@@ -77,9 +77,8 @@ def validateEnoughTickets(buyQuantity, ticketName):
     return buyQuantity <= tmp.quantity
 
 # Function that validates if the user has enough money to buy tickets
-def validateBalanceEnough(buyQuantity, ticketName, email):
+def validateBalanceEnough(buyQuantity, ticketName, user):
     tmp = Tickets.query.filter_by(name=ticketName).first()
-    user = get_user(email)
     return user.balance >= ((buyQuantity * tmp.price) * 1.35) * 1.05 # service fee: 1.35 (35%), tax: 1.05 (5%)
 
 

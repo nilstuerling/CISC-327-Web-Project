@@ -228,7 +228,7 @@ def buy_form_post(user):
         buyErrorMessage = "Invalid ticket quantity"
     elif not(bn.validateEnoughTickets(quantity, name)):
         buyErrorMessage = "Invalid ticket quantity: must not exceed existing quantity of " + name
-    elif not(bn.validateBalanceEnough(quantity, name, user.email)):
+    elif not(bn.validateBalanceEnough(quantity, name, user)):
         buyErrorMessage = "Invalid purchase order: insufficient funds"
     
     if buyErrorMessage:
