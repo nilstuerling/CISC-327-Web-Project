@@ -1,4 +1,4 @@
-from flask import render_template, request, session, redirect
+from flask import render_template, request, session, redirect, url_for
 from qa327 import app
 from datetime import date
 from datetime import datetime
@@ -200,7 +200,6 @@ def authenticate(inner_function):
     wrapped_inner.__name__ = inner_function.__name__
     return wrapped_inner
 
-
 # Renders logged in user home page
 @app.route('/')
 @authenticate
@@ -210,29 +209,46 @@ def profile(user):
     # by using @authenticate, we don't need to re-write
     # the login checking code all the time for other
     # front-end portals
-    today = date.today()
-    todayDate = today.strftime("%d/%m/%y")
+    sellErrorMessage = ""
+    if "sellErrorMessage" in request.args:
+        sellErrorMessage = request.args["sellErrorMessage"]
+    buyErrorMessage = ""
+    if "buyErrorMessage" in request.args:
+        buyErrorMessage = request.args["buyErrorMessage"]
+    updateErrorMessage = ""
+    if "updateErrorMessage" in request.args:
+        updateErrorMessage = request.args["updateErrorMessage"]
+
     tickets = bn.get_all_tickets()
-    expiredTickets = []
-    for i in range(len(tickets)):
+    for ticket in tickets:
         date1 = date.today()
-        date2 = datetime.strptime(tickets[i]["date"], "%d/%m/%Y").date()
-        if date1 > date2 and date1 != date2:
-            expiredTickets.append(i)
-    for j in range(len(expiredTickets)):
-        del tickets[expiredTickets[j]]
-    return render_template('index.html', user=user, tickets=tickets)
+        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        if (date1 > date2 and date1 != date2):
+            tickets.remove(ticket)
+    return render_template('index.html', user=user, tickets=tickets, sellErrorMessage=sellErrorMessage, buyErrorMessage=buyErrorMessage, updateErrorMessage=updateErrorMessage)
 
-
-# gets ticket info from form and renders sell page
+# gets ticket info from form
 @app.route('/sell', methods=['POST'])
 @authenticate
-def sell_form_post():
+def sell_form_post(user):
     name = request.form.get('name')
-    quantity = request.form.get('quantity')
-    price = request.form.get('price')
+    quantity = int(request.form.get('quantity'))
+    price = int(request.form.get('price'))
     expireDate = request.form.get('expireDate')
-    bn.sell_ticket(name, quantity, price, expireDate)
+    sellErrorMessage = None
+    if not(bn.validateTicketName(name)):
+        sellErrorMessage = "Invalid ticket name"
+    elif not(bn.validateTicketQuantity(quantity)):
+        sellErrorMessage = "Invalid ticket quantity"
+    elif not(bn.validateTicketPrice(price)):
+        sellErrorMessage = "Invalid ticket price"
+    elif not(bn.validateTicketExpiryDate(expireDate)):
+        sellErrorMessage = "Invalid ticket expiry date"
+
+    if sellErrorMessage:
+        return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
+
+    bn.sell_ticket(user.email, name, quantity, price, expireDate)
     return redirect('/')
 
 
@@ -244,13 +260,29 @@ def sell_form_get():
         return redirect('/login')
 
 
-# Gets ticket info from form and renders buy page
+# Gets ticket info from form
 @app.route('/buy', methods=['POST'])
 @authenticate
-def buy_form_post():
+def buy_form_post(user):
     name = request.form.get('buyName')
-    quantity = request.form.get('buyQuantity')
-    bn.buy_ticket(name, quantity)
+    quantity = int(request.form.get('buyQuantity'))
+    buyErrorMessage = None
+
+    if not(bn.validateTicketName(name)):
+        buyErrorMessage = "Invalid ticket name"
+    elif not(bn.validateTicketExists(name)):
+        buyErrorMessage = "Invalid ticket name: ticket does not exist"
+    elif not(bn.validateTicketQuantity(quantity)):
+        buyErrorMessage = "Invalid ticket quantity"
+    elif not(bn.validateEnoughTickets(quantity, name)):
+        buyErrorMessage = "Invalid ticket quantity: must not exceed existing quantity of " + name
+    elif not(bn.validateBalanceEnough(quantity, name, user)):
+        buyErrorMessage = "Invalid purchase order: insufficient funds"
+    
+    if buyErrorMessage:
+        return redirect(url_for('.profile', buyErrorMessage=buyErrorMessage))
+
+    bn.buy_ticket(user.email, name, quantity)
     return redirect('/')
 
 
@@ -265,12 +297,26 @@ def buy_form_get():
 # gets ticket info from form and renders update ticket page
 @app.route('/update', methods=['POST'])
 @authenticate
-def update_form_post():
+def update_form_post(user):
     name = request.form.get('updateName')
-    quantity = request.form.get('updateQuantity')
-    price = request.form.get('updatePrice')
+    quantity = int(request.form.get('updateQuantity'))
+    price = int(request.form.get('updatePrice'))
     expireDate = request.form.get('updateExpireDate')
-    bn.update_ticket(name, quantity, price, expireDate)
+    updateErrorMessage = None
+    if not(bn.validateTicketName(name)):
+        updateErrorMessage = "Invalid ticket name"
+    elif not(bn.validateTicketQuantity(quantity)):
+        updateErrorMessage = "Invalid ticket quantity"
+    elif not(bn.validateTicketPrice(price)):
+        updateErrorMessage = "Invalid ticket price"
+    elif not(bn.validateTicketExpiryDate(expireDate)):
+        updateErrorMessage = "Invalid ticket expiry date"
+    elif not (bn.validateExistsTicketName(name)):
+        updateErrorMessage = "Invalid ticket name does not exist"
+    if updateErrorMessage:
+        return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
+
+    bn.update_ticket(user.email, name, quantity, price, expireDate)
     return redirect('/')
 
 

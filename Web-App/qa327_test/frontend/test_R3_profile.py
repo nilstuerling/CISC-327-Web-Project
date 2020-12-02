@@ -2,7 +2,7 @@ import pytest
 from seleniumbase import BaseCase
 from qa327_test.conftest import base_url
 from unittest.mock import patch
-from qa327.models import db, User
+from qa327.models import db, User, Tickets
 from werkzeug.security import generate_password_hash, check_password_hash
 
 
@@ -19,32 +19,23 @@ test_user = User(
 )
 
 # Mock some sample tickets
-test_tickets = [
-    {'name': 't1', 'price': '100', 'date': '24/12/2020', 'quantity':'1', 'email':'test_frontend@test.com'}
-]
+test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity='1',price='100')]
 
-@pytest.mark.usefixtures('server')
 @patch('qa327.backend.get_user', return_value=test_user)
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 class test_R3(BaseCase):
 
 	# R3.1 - Checks that if the user is not logged in, redirect to login page
-	def test_logged_in_redirect_to_user_profile(self, *_):
+	def test_not_logged_in_redirect_to_login_page(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
 		# Open homepage while not logged in
 		self.open(base_url + '/')
 
-		# Redirected to login page and asked to fill email and password
-		self.type("#email", valid_test_user_email)
-		self.type("#password", valid_test_user_password)
-
-		# Click submit button
-		self.click('input[type="submit"]')
-
-		# Redirected homepage, check by asserting if #welcome-header exists
-		self.assert_element("#welcome-header")
+		# Test if login.html template was rendered by checking if "Log In" header exists
+		self.assert_element("h1")
+		self.assert_text("Log In", "h1")
 
 	# R3.2 - Checks if this page shows a header 'Hi {}'.format(user.name)
 	def test_this_page_header(self, *_):
