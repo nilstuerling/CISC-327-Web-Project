@@ -219,15 +219,18 @@ def buy_form_post(user):
     name = request.form.get('buyName')
     quantity = int(request.form.get('buyQuantity'))
     buyErrorMessage = None
+
     if not(bn.validateTicketName(name)):
         buyErrorMessage = "Invalid ticket name"
+    elif not(bn.validateTicketExists(name)):
+        buyErrorMessage = "Invalid ticket name: ticket does not exist"
     elif not(bn.validateTicketQuantity(quantity)):
         buyErrorMessage = "Invalid ticket quantity"
+    elif not(bn.validateEnoughTickets(quantity, name)):
+        buyErrorMessage = "Invalid ticket quantity: must not exceed existing quantity of " + name
+    elif not(bn.validateBalanceEnough(quantity, name, user)):
+        buyErrorMessage = "Invalid purchase order: insufficient funds"
     
-    # Add validation for:
-    # - The ticket name exists in the database and the quantity is more than the quantity requested to buy
-    # - The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
-
     if buyErrorMessage:
         return redirect(url_for('.profile', buyErrorMessage=buyErrorMessage))
 
