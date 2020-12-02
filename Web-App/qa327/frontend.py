@@ -311,7 +311,7 @@ def update_form_post(user):
         updateErrorMessage = "Invalid ticket price"
     elif not(bn.validateTicketExpiryDate(expireDate)):
         updateErrorMessage = "Invalid ticket expiry date"
-    elif not (bn.validateExistsTicketName(name)):
+    elif not (bn.validateTicketExists(name)):
         updateErrorMessage = "Invalid ticket name does not exist"
     if updateErrorMessage:
         return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
