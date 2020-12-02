@@ -90,6 +90,15 @@ def validateTicketPrice(ticketPrice):
         return False
     return True
 
+# Function that validates that a ticket name exists
+def validateExistsTicketName(ticketName):
+    # Check if ticket name exists within tickets
+    allTickets = get_all_tickets()
+    for ticket in allTickets:
+        if ticket.name == ticketName:
+            return True
+    return False
+
 # Function that validates ticket expiry date
 def validateTicketExpiryDate(date):
     if len(date) != 8:
