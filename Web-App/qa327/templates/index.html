@@ -14,16 +14,17 @@
 
 <div>
 <h3>Sell Tickets</h3>
+<h4 id='sellErrorMessage'>{{sellErrorMessage}}</h4>
 <form id="sellTicket" action="/sell" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="name">Name</label>
-    <input class="form-control" name="name" id="name" required>
+    <input class="form-control" name="name" id="name" type="text" required>
     <label for="quantity">Quantity</label>
-    <input class="form-control" name="quantity" id="quantity" required>
+    <input class="form-control" name="quantity" id="quantity" type="number" required>
     <label for="price">Price</label>
-    <input class="form-control" name="price" id="price" required>
+    <input class="form-control" name="price" id="price" type="number" required>
     <label for="expireDate">Expiration Date</label>
-    <input class="form-control" name="expireDate" id="expireDate" required>
+    <input class="form-control" name="expireDate" id="expireDate" type="number" required>
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit" value="Sell">
   </div>
 </form>
@@ -32,6 +33,7 @@
 
 <div>
 <h3>Buy Tickets</h3>
+<h4 id='buyErrorMessage'>{{buyErrorMessage}}</h4>
 <form id="buyTicket" action="/buy" method="post" >
   <div class="form-group" style="margin-bottom:15px;">
     <label for="buyName">Name</label>
@@ -46,6 +48,7 @@
 
 <div>
 <h3>Update Tickets</h3>
+<h4 id='updateErrorMessage'>{{updateErrorMessage}}</h4>
 <form id="updateTicket" action="/update" method="post">
   <div class="form-group" style="margin-bottom:15px;">
     <label for="updateName">Name</label>

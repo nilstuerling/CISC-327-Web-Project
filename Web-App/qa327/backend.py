@@ -2,6 +2,8 @@ from qa327.models import db, User
 from qa327.models import db, Tickets
 from werkzeug.security import generate_password_hash, check_password_hash
 from email_validator import validate_email, EmailNotValidError
+from datetime import date
+from datetime import datetime
 
 """
 This file defines all backend logic that interacts with database and other services
@@ -32,7 +34,6 @@ def validatePassword(password):
         return False
     return True
 
-
 # Function that validates user input username
 def validateUserName(username):
     # Check username length
@@ -45,6 +46,51 @@ def validateUserName(username):
     elif not all((char.isalnum() or char == ' ') for char in username):
         return False
     return True
+
+# Function that validates ticket names
+def validateTicketName(ticketName):
+    # Check ticket name length (must be less than 60 characters)
+    if len(ticketName) > 60:
+        return False
+    # Check if ticket name has leading or trailing space
+    if ticketName[0] == ' ' or ticketName[-1] == ' ':
+        return False
+    # Check if ticket name is alphanumeric
+    if not all((char.isalnum() or char == ' ') for char in ticketName):
+        return False
+    return True
+
+# Function that validates ticket quantity
+def validateTicketQuantity(ticketQuantity):
+    # Check quantity of ticket is more than 0 and max at 100
+    if ticketQuantity <= 0 or ticketQuantity > 100:
+        return False
+    return True
+
+# Function that validates ticket price
+def validateTicketPrice(ticketPrice):
+    # Check ticket price is within 10 - 100
+    if not (10 <= ticketPrice <= 100):
+        return False
+    return True
+
+# Function that validates ticket expiry date
+def validateTicketExpiryDate(date):
+    if len(date) != 8:
+        return False
+    year = date[0:4]
+    month = date[4:6]
+    day = date[6:]
+    dateString = year + "-" + month + "-" + day
+    today = datetime.today()
+    try:
+        ticketDate = datetime.strptime(dateString, "%Y-%m-%d")
+        if (ticketDate < today and ticketDate != today):
+            return False
+        return True
+    except ValueError as e:
+        print(e)
+        return False
 
 # Function that returns User object from database from unique email adress
 def get_user(email):
@@ -90,27 +136,35 @@ def register_user(email, name, password, password2):
 
 # Gets all tickets in tickets database and returns a list of all tickets
 def get_all_tickets():
-#    return []
      return db.session.query(Tickets).all()
 
 
 # Adds ticket with input parameters and commits new addition to tickets database
-def sell_ticket(name,quantity,price,expireDate):
-    new_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
+def sell_ticket(userEmail, name, quantity, price, expireDate):
+    formattedDate = format_date(expireDate)
+    new_ticket = Tickets(email=userEmail, name=name,date=formattedDate,quantity=quantity,price=price)
     db.session.add(new_ticket)
     db.session.commit()
     return True
 
 # Updates ticket with parameters and commits new changes to tickets database
-def update_ticket(name,quantity,price,expireDate):
-    updated_ticket = Tickets(email=User.email,name=name,date=expireDate,quantity=quantity,price=price)
+def update_ticket(userEmail,name,quantity,price,expireDate):
+    formattedDate = format_date(expireDate)
+    updated_ticket = Tickets(email=userEmail,name=name,date=formattedDate,quantity=quantity,price=price)
     db.session.update(updated_ticket)
     db.session.commit()
     return True
 
 # Adds specified ticket to user account, removing specified quantity from database
-def buy_ticket(name,quantity):
-    bought_ticket = Tickets(email=User.email,name=name,quantity=quantity)
+def buy_ticket(userEmail,name,quantity):
+    bought_ticket = Tickets(email=userEmail,name=name,quantity=quantity)
     db.session.remove(bought_ticket)
     db.session.commit()
     return True
+
+# Format date
+def format_date(ticketDate):
+    year = ticketDate[0:4]
+    month = ticketDate[4:6]
+    day = ticketDate[6:]
+    return day + "/" + month + "/" + year

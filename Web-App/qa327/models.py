@@ -33,8 +33,8 @@ class Tickets(db.Model):
     email = db.Column(db.String(100), unique=True)
     name = db.Column(db.String(1000))
     date = db.Column(db.String(1000))
-    quantity = db.Column(db.String(100))
-    price = db.Column(db.String(10000))
+    quantity = db.Column(db.Integer)
+    price = db.Column(db.Integer)
 
 
 # it creates all the SQL tables if they do not exist
