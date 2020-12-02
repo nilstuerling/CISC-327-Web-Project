@@ -63,6 +63,7 @@ def validateTicketName(ticketName):
 def validateTicketExists(ticketName):
     if not (Tickets.query.filter_by(name=ticketName).first()):
         return False
+    return True
 
 # Function that validates ticket quantity
 def validateTicketQuantity(ticketQuantity):
