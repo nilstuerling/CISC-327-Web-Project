@@ -22,10 +22,13 @@ def validateTicketName(ticketName):
         return False
     return True
 
+
+# Function that validates that a ticket exists in the database
 def validateTicketExists(ticketName):
     if not (Tickets.query.filter_by(name=ticketName).first()):
         return False
     return True
+
 
 # Function that validates ticket quantity
 def validateTicketQuantity(ticketQuantity):
@@ -34,10 +37,12 @@ def validateTicketQuantity(ticketQuantity):
         return False
     return True
 
+
 # Function that validates if there are enough tickets to buy
 def validateEnoughTickets(buyQuantity, ticketName):
     tmp = Tickets.query.filter_by(name=ticketName).first()
     return buyQuantity <= tmp.quantity
+
 
 # Function that validates if the user has enough money to buy tickets
 def validateBalanceEnough(buyQuantity, ticketName, user):
@@ -52,14 +57,6 @@ def validateTicketPrice(ticketPrice):
         return False
     return True
 
-# Function that validates that a ticket name exists
-def validateExistsTicketName(ticketName):
-    # Check if ticket name exists within tickets
-    allTickets = get_all_tickets()
-    for ticket in allTickets:
-        if ticket.name == ticketName:
-            return True
-    return False
 
 # Function that validates ticket expiry date
 def validateTicketExpiryDate(date):
@@ -79,6 +76,7 @@ def validateTicketExpiryDate(date):
         print(e)
         return False
 
+
 # Function that returns User object from database from unique email adress
 def get_user(email):
     """
@@ -88,6 +86,7 @@ def get_user(email):
     """
     user = User.query.filter_by(email=email).first()
     return user
+
 
 # Logs user in session if valid email/password pair
 def login_user(email, password):
@@ -102,6 +101,7 @@ def login_user(email, password):
     if not user or not check_password_hash(user.password, password):
         return None
     return user
+
 
 # Registers and adds user to database with valid supplied parameters
 def register_user(email, name, password, password2):
@@ -121,6 +121,7 @@ def register_user(email, name, password, password2):
     db.session.commit()
     return None
 
+
 # Gets all tickets in tickets database and returns a list of all tickets
 def get_all_tickets():
      return db.session.query(Tickets).all()
@@ -134,6 +135,7 @@ def sell_ticket(userEmail, name, quantity, price, expireDate):
     db.session.commit()
     return True
 
+
 # Updates ticket with parameters and commits new changes to tickets database
 def update_ticket(userEmail,name,quantity,price,expireDate):
     formattedDate = format_date(expireDate)
@@ -142,6 +144,7 @@ def update_ticket(userEmail,name,quantity,price,expireDate):
     db.session.commit()
     return True
 
+
 # Adds specified ticket to user account, removing specified quantity from database
 def buy_ticket(userEmail,name,quantity):
     bought_ticket = Tickets(email=userEmail,name=name,quantity=quantity)
@@ -149,7 +152,8 @@ def buy_ticket(userEmail,name,quantity):
     db.session.commit()
     return True
 
-# Format date
+
+# Formats date from string input into printable string
 def format_date(ticketDate):
     year = ticketDate[0:4]
     month = ticketDate[4:6]
