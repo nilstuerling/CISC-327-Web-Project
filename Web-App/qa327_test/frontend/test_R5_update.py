@@ -40,7 +40,7 @@ class test_R5(BaseCase):
 		# Click submit button
 		self.click('input[type="submit"]')
 
-		self.type("#updateName", "t1")
+		self.type("#updateName", " testTitle")
 		self.type("#updateQuantity", "1")
 		self.type("#updatePrice", "100")
 		self.type("#updateExpireDate", "24/12/2020")
