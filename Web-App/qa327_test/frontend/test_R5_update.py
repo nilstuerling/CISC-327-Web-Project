@@ -26,7 +26,7 @@ test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/202
 class test_R5(BaseCase):
 
 	# R3.1 - Checks that if the user is not logged in, redirect to login page
-	def test_not_logged_in_redirect_to_login_page(self, *_):
+	def test_validate_TicketName(self, *_):
 		# Open logout page, invalid any logged-in sessions that may exist
 		self.open(base_url + '/logout')
 
@@ -45,10 +45,120 @@ class test_R5(BaseCase):
 		self.type("#updatePrice", "100")
 		self.type("#updateExpireDate", "24/12/2020")
 		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket name", "#updateErrorMessage")
 
+		self.type("#updateName", "testTitle ")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "100")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket name", "#updateErrorMessage")
+
+		self.type("#updateName", "testTitle.")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "100")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
 		self.assert_text("Invalid ticket name", "#updateErrorMessage")
 
 
+	def test_validate_length_TicketName(self, *_):
+		# Open logout page, invalid any logged-in sessions that may exist
+		self.open(base_url + '/logout')
+
+		# Open login page
+		self.open(base_url + '/login')
+
+		# Fill email and password
+		self.type("#email", valid_test_user_email)
+		self.type("#password", valid_test_user_password)
+
+		# Click submit button
+		self.click('input[type="submit"]')
+
+		self.type("#updateName", "HelloThereThisIsATestOfHowManyCharactersFitIntoATicketNameGoodbye")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "100")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket name", "#updateErrorMessage")
 
 
+	def test_validate_TicketQuantity(self, *_):
+		# Open logout page, invalid any logged-in sessions that may exist
+		self.open(base_url + '/logout')
 
+		# Open login page
+		self.open(base_url + '/login')
+
+		# Fill email and password
+		self.type("#email", valid_test_user_email)
+		self.type("#password", valid_test_user_password)
+
+		# Click submit button
+		self.click('input[type="submit"]')
+
+		self.type("#updateName", "t1")
+		self.type("#updateQuantity", "0")
+		self.type("#updatePrice", "100")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket quantity", "#updateErrorMessage")
+
+		self.type("#updateName", "t1")
+		self.type("#updateQuantity", "101")
+		self.type("#updatePrice", "100")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket quantity", "#updateErrorMessage")
+
+
+	def test_validate_TicketPrice(self, *_):
+		# Open logout page, invalid any logged-in sessions that may exist
+		self.open(base_url + '/logout')
+
+		# Open login page
+		self.open(base_url + '/login')
+
+		# Fill email and password
+		self.type("#email", valid_test_user_email)
+		self.type("#password", valid_test_user_password)
+
+		# Click submit button
+		self.click('input[type="submit"]')
+
+		self.type("#updateName", "t1")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "9")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket price", "#updateErrorMessage")
+
+		self.type("#updateName", "t1")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "101")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket price", "#updateErrorMessage")
+
+
+	def test_validate_TicketExists(self, *_):
+		# Open logout page, invalid any logged-in sessions that may exist
+		self.open(base_url + '/logout')
+
+		# Open login page
+		self.open(base_url + '/login')
+
+		# Fill email and password
+		self.type("#email", valid_test_user_email)
+		self.type("#password", valid_test_user_password)
+
+		# Click submit button
+		self.click('input[type="submit"]')
+
+		self.type("#updateName", "testTicket")
+		self.type("#updateQuantity", "1")
+		self.type("#updatePrice", "9")
+		self.type("#updateExpireDate", "24/12/2020")
+		self.click("input[id='btn-submit3']")
+		self.assert_text("Invalid ticket name: does not exist", "#updateErrorMessage")
