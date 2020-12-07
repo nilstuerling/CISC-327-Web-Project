@@ -158,7 +158,7 @@ class test_R5(BaseCase):
 
 		self.type("#updateName", "testTicket")
 		self.type("#updateQuantity", "1")
-		self.type("#updatePrice", "9")
+		self.type("#updatePrice", "100")
 		self.type("#updateExpireDate", "24/12/2020")
 		self.click("input[id='btn-submit3']")
 		self.assert_text("Invalid ticket name: does not exist", "#updateErrorMessage")
