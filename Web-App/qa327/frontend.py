@@ -222,7 +222,7 @@ def profile(user):
     tickets = bn.get_all_tickets()
     for ticket in tickets:
         date1 = date.today()
-        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        date2 = datetime.strptime(ticket.date, "%Y%m%d").date()
         if (date1 > date2 and date1 != date2):
             tickets.remove(ticket)
     return render_template('index.html', user=user, tickets=tickets, sellErrorMessage=sellErrorMessage, buyErrorMessage=buyErrorMessage, updateErrorMessage=updateErrorMessage)
