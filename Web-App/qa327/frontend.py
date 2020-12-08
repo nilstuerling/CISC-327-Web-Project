@@ -248,9 +248,10 @@ def sell_form_post(user):
     if sellErrorMessage:
         return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
 
-    bn.sell_ticket(user.email, name, quantity, price, expireDate)
+    error = bn.sell_ticket(user.email, name, quantity, price, expireDate)
+    if error:
+        return redirect(url_for('.profile', sellErrorMessage=error))
     return redirect('/')
-
 
 @app.route('/sell', methods=['GET'])
 def sell_form_get():

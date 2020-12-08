@@ -129,11 +129,14 @@ def get_all_tickets():
 
 # Adds ticket with input parameters and commits new addition to tickets database
 def sell_ticket(userEmail, name, quantity, price, expireDate):
-    formattedDate = format_date(expireDate)
-    new_ticket = Tickets(email=userEmail, name=name,date=formattedDate,quantity=quantity,price=price)
-    db.session.add(new_ticket)
-    db.session.commit()
-    return True
+    try:
+        formattedDate = format_date(expireDate)
+        new_ticket = Tickets(email=userEmail, name=name,date=formattedDate,quantity=quantity,price=price)
+        db.session.add(new_ticket)
+        db.session.commit()
+    except Exception as e:
+        return str(e)
+    return ""
 
 
 # Updates ticket with parameters and commits new changes to tickets database
