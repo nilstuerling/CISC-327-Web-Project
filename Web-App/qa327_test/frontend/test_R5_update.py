@@ -221,6 +221,7 @@ class test_R5(BaseCase):
 		self.type("#updateName", "t1")
 
 		#test error message with false quantity
+		self.type("#updateName", "t1")
 		self.type("#updateQuantity", "101")
 		self.type("#updatePrice", "100")
 		self.type("#updateExpireDate", "20201224")
