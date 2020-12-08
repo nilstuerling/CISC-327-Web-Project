@@ -19,7 +19,7 @@ test_user = User(
 )
 
 # Mock some sample tickets
-test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity='1',price='100')]
+test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity='1',price='100')]
 
 @patch('qa327.backend.get_user', return_value=test_user)
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
@@ -121,7 +121,7 @@ class test_R3(BaseCase):
 		# Checks that all tickets are displayed correctly on the homepage
 		self.assert_element("#tickets div h4")
 		self.assert_text("t1 100", "#tickets div h4")
-		self.assert_text("1 24/12/2020 test_frontend@test.com", "#tickets div h5")
+		self.assert_text("1 20201224 test_frontend@test.com", "#tickets div h5")
 
 	# R3.6 - Checks if this page contains a form that a user can submit new tickets for sell.
 	# Fields: name, quantity, price, expiration date
