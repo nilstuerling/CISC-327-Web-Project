@@ -30,7 +30,7 @@ class ServerThread2(threading.Thread):
 
     def __init__(self):
         threading.Thread.__init__(self)
-        self.srv = make_server('127.0.0.1', FLASK_PORT, app)
+        self.srv = make_server('127.0.0.2', FLASK_PORT, app)
         with app.app_context():
             db.drop_all()
             db.create_all()
