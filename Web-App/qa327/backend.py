@@ -39,8 +39,8 @@ def validateTicketQuantity(ticketQuantity):
 
 
 # Function that validates if there are enough tickets to buy
-def validateEnoughTickets(buyQuantity, ticketName):
-    tmp = Tickets.query.filter_by(name=ticketName).first()
+def validateEnoughTickets(buyQuantity, ticketName, ticketEmail):
+    tmp = db.session.query(Tickets).filter_by(name=ticketName, email=ticketEmail).first()
     return buyQuantity <= tmp.quantity
 
 
@@ -152,10 +152,15 @@ def update_ticket(userEmail,name,quantity,price,expireDate):
 
 # Adds specified ticket to user account, removing specified quantity from database
 def buy_ticket(userEmail,name,quantity):
-    bought_ticket = Tickets(email=userEmail,name=name,quantity=quantity)
-    db.session.remove(bought_ticket)
-    db.session.commit()
-    return True
+    for bought_ticket in db.session.query(Tickets).filter_by(name=name).order_by(Tickets.price):
+        if validateEnoughTickets(quantity, name, bought_ticket.email):
+            bought_ticket.quantity -= quantity
+            if bought_ticket.quantity == 0:
+                db.session.query(Tickets).filter_by(name=name, email=bought_ticket.email).delete()
+            db.session.commit()
+            return None
+
+    return "Invalid Ticket Quantity"
 
 
 # Formats date from string input into printable string

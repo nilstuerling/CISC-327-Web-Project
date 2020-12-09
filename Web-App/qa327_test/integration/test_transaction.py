@@ -2,7 +2,7 @@ import pytest
 from seleniumbase import BaseCase
 from qa327_test.conftest import base_url
 from unittest.mock import patch
-from qa327.models import db, User
+from qa327.models import User
 from werkzeug.security import generate_password_hash, check_password_hash
 from collections import namedtuple
 
@@ -64,16 +64,15 @@ class TestSellPath(BaseCase):
         assert tixAppears
 
         ticketDateQuantityEmail = self.find_elements("#tickets div h5")
-
         tixAppears = any(self.format_date(tix.date) in el.text and str(tix.quantity) in el.text and tix.email in
                          el.text for el in ticketDateQuantityEmail)
         assert tixAppears
 
-
     def test_buying_path(self):
         self.logout()
-        self.register_params(user1.email, user1.name, user1.password, user1.password)
-        self.login(user1)
+        self.register_params(user2.email, user2.name, user2.password, user2.password)
+        self.login(user2)
+
 
 
 
