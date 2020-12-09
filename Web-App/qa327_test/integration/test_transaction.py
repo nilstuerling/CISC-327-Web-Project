@@ -16,7 +16,7 @@ ticketFields = namedtuple("ticketFields", "name date quantity price email")
 tix = ticketFields("Dream Theater Metropolis Pt 2 Scenes From a Memory", "20210420", "20", "50", user1.email)
 
 
-@pytest.mark.usefixtures('server')
+@pytest.mark.usefixtures('fresh_server')
 class TestSellPath(BaseCase):
 
     #######################
