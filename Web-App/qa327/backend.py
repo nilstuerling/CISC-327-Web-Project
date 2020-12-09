@@ -45,8 +45,8 @@ def validateEnoughTickets(buyQuantity, ticketName, ticketEmail):
 
 
 # Function that validates if the user has enough money to buy tickets
-def validateBalanceEnough(buyQuantity, ticketName, user):
-    tmp = Tickets.query.filter_by(name=ticketName).first()
+def validateBalanceEnough(buyQuantity, ticketName, user, ticketEmail):
+    tmp = Tickets.query.filter_by(name=ticketName, email=ticketEmail).first()
     return user.balance >= ((buyQuantity * tmp.price) * 1.35) * 1.05 # service fee: 1.35 (35%), tax: 1.05 (5%)
 
 
@@ -151,16 +151,25 @@ def update_ticket(userEmail,name,quantity,price,expireDate):
 
 
 # Adds specified ticket to user account, removing specified quantity from database
-def buy_ticket(userEmail,name,quantity):
+def buy_ticket(user, name, quantity):
+    # Iterates through all listed tickets of specified name, sorted by price, low to high
     for bought_ticket in db.session.query(Tickets).filter_by(name=name).order_by(Tickets.price):
+        # Checks if listed ticket has specified quantity
         if validateEnoughTickets(quantity, name, bought_ticket.email):
+            # Returns error message for insufficient funds
+            if not validateBalanceEnough(quantity, name, user,
+                                         bought_ticket.email):
+                return "Invalid purchase order: insufficient funds"
+            # Otherwise deducts specified quantity from ticket, and total price from user balance
             bought_ticket.quantity -= quantity
+            user.balance -= ((quantity * bought_ticket.price) * 1.35) * 1.05  # service fee: 1.35 (35%), tax: 1.05 (5%)
+            # Unlists ticket if none left
             if bought_ticket.quantity == 0:
                 db.session.query(Tickets).filter_by(name=name, email=bought_ticket.email).delete()
             db.session.commit()
             return None
 
-    return "Invalid Ticket Quantity"
+    return "Invalid Ticket Quantity"  # Ticket of specified quantity not found
 
 
 # Formats date from string input into printable string

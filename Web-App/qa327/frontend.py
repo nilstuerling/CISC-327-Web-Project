@@ -273,23 +273,21 @@ def buy_form_post(user):
     quantity = int(request.form.get('buyQuantity'))
     buyErrorMessage = None
 
+    # Checks for ticket arguments validity
     if not(bn.validateTicketName(name)):
         buyErrorMessage = "Invalid ticket name"
     elif not(bn.validateTicketExists(name)):
         buyErrorMessage = "Invalid ticket name: ticket does not exist"
     elif not(bn.validateTicketQuantity(quantity)):
         buyErrorMessage = "Invalid ticket quantity"
-    elif not(bn.validateBalanceEnough(quantity, name, user)):
-        buyErrorMessage = "Invalid purchase order: insufficient funds"
 
-    try:
-        buyErrorMessage = bn.buy_ticket(user.email, name, quantity)
+    try:    # Tries to buy ticket, checks for sufficient quantity and purchasing funds
+        buyErrorMessage = bn.buy_ticket(user, name, quantity)
     except IntegrityError:
         buyErrorMessage = "Could not buy ticket"
 
     if buyErrorMessage:
         return redirect(url_for('.profile', buyErrorMessage=buyErrorMessage))
-
 
     return redirect('/')
 

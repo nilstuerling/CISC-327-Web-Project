@@ -54,9 +54,11 @@ class TestSellPath(BaseCase):
         self.type("#price", tix.price)
         self.type("#expireDate", tix.date)
         self.click("#btn-submit")
+    #########################
+    # INTEGRATION TESTING
+    # User registration to ticket selling path
 
-
-    def test_1selling_path(self):
+    def test_selling_path(self):
         self.logout()
         self.register_params(user1.email, user1.name, user1.password, user1.password)
         self.login(user1)
@@ -70,8 +72,8 @@ class TestSellPath(BaseCase):
         assert any(self.format_date(tix.date) in el.text and tix.quantity in el.text and tix.email in el.text
                    for el in ticket_DateQuantityEmail)
 
-
-    def test_2buying_path(self):
+    # User registration to ticket buying path
+    def test_buying_path(self):
         # Sell a ticket with a first user, so we may have a ticket listing
         self.logout()
         self.register_params(user1.email, user1.name, user1.password, user1.password)
