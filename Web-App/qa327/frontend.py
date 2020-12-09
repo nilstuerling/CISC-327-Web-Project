@@ -254,9 +254,6 @@ def sell_form_post(user):
     if sellErrorMessage:
         return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
 
-
-
-
     return redirect('/')
 
 
@@ -321,10 +318,16 @@ def update_form_post(user):
         updateErrorMessage = "Invalid ticket expiry date"
     elif not (bn.validateTicketExists(name)):
         updateErrorMessage = "Invalid ticket name does not exist"
+
+    try:
+        updateErrorMessage = bn.update_ticket(user.email, name, quantity, price, expireDate)
+    except IntegrityError:
+        updateErrorMessage = "Invalid ticket update"
+
     if updateErrorMessage:
         return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
 
-    bn.update_ticket(user.email, name, quantity, price, expireDate)
+
     return redirect('/')
 
 
