@@ -70,27 +70,27 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # empty name
-        # self.submitBuyForm("",  3)
+        # self.submitBuyForm("",  "")
         # self.assert_text("Invalid ticket name","#buyErrorMessage")
         # self.assert_element("#welcome-header")
 
         # space at front
-        self.submitBuyForm(" ticketTest",  1)
+        self.submitBuyForm(" ticketTest",  "1")
         self.assert_text("Invalid ticket name","#buyErrorMessage")
         self.assert_element("#welcome-header") # stays on main page
 
         # space at end
-        self.submitBuyForm("ticketTest ",  1)
+        self.submitBuyForm("ticketTest ",  "1")
         self.assert_text("Invalid ticket name","#buyErrorMessage") # stays on main page
         self.assert_element("#welcome-header") # stays on main page
 
         # special character
-        self.submitBuyForm("ticket$Test",  1)
+        self.submitBuyForm("ticket$Test",  "1")
         self.assert_text("Invalid ticket name","#buyErrorMessage") # stays on main page
         self.assert_element("#welcome-header") # stays on main page
 
         # passing ticket
-        # self.submitBuyForm("t1",  1)
+        # self.submitBuyForm("t1",  "1")
         # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
         # self.assert_element("#welcome-header") # stays on main page
 
@@ -101,17 +101,17 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # empty name
-        # self.submitBuyForm("",  1)
+        # self.submitBuyForm("",  "1")
         # self.assert_text("Invalid ticket name","#buyErrorMessage")
         # self.assert_element("#welcome-header")
 
         # too long name
-        self.submitBuyForm("reallyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyylongname",  1)
+        self.submitBuyForm("reallyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyylongname",  "1")
         self.assert_text("Invalid ticket name","#buyErrorMessage")
         self.assert_element("#welcome-header")
 
         # passing ticket
-        # self.submitBuyForm("t1",  1)
+        # self.submitBuyForm("t1",  "1")
         # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
         # self.assert_element("#welcome-header") # stays on main page
 
@@ -127,17 +127,17 @@ class Test_R6(BaseCase):
         # self.assert_element("#welcome-header")
 
         # too little
-        self.submitBuyForm("t1",  0)
+        self.submitBuyForm("t1",  "0")
         self.assert_text("Invalid ticket quantity","#buyErrorMessage")
         self.assert_element("#welcome-header")
 
         # too much
-        self.submitBuyForm("t1",  101)
+        self.submitBuyForm("t1",  "101")
         self.assert_text("Invalid ticket quantity","#buyErrorMessage")
         self.assert_element("#welcome-header")
 
         # passing
-        # self.submitBuyForm("t1",  2)
+        # self.submitBuyForm("t1",  "2")
         # self.assert_text("Success","#buyErrorMessage")
         # self.assert_element("#welcome-header")
 
@@ -148,11 +148,11 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # invalid ticket name
-        self.submitBuyForm("t0",  2)
+        self.submitBuyForm("t0",  "2")
         self.assert_text("Invalid ticket name: ticket does not exist", "#buyErrorMessage")
 
         # valid ticket name
-        # self.submitBuyForm("t1",  2)
+        # self.submitBuyForm("t1",  "2")
         # self.assert_text("Success", "#buyErrorMessage")
 
 
@@ -161,11 +161,11 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # valid ticket name but too much requested
-        self.submitBuyForm("t1",  4)
+        self.submitBuyForm("t1",  "4")
         self.assert_text("Invalid ticket quantity: must not exceed existing quantity of t1", "#buyErrorMessage")
 
         # valid ticket name and valid amount
-        # self.submitBuyForm("t1", 1)
+        # self.submitBuyForm("t1", "1")
         # self.assert_text("Success", "#buyErrorMessage")
 
         
@@ -175,11 +175,11 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # valid name and valid quantity, but not enough balance
-        self.submitBuyForm("t2", 2)
+        self.submitBuyForm("t2", "2")
         self.assert_text("Invalid purchase order: insufficient funds", "#buyErrorMessage")
 
         # valid name, quantity and balance
-        # self.submitBuyForm("t2", 1)
+        # self.submitBuyForm("t2", "1")
         # self.assert_text("Success", "#buyErrorMessage")
 
 
