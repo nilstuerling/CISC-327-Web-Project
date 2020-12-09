@@ -26,7 +26,7 @@ def validateTicketName(ticketName):
 # Function that validates that a ticket exists in the database
 def validateTicketExists(ticketName):
     tickets = get_all_tickets()
-    ticketExits = False
+    ticketExists = False
 
     for ticket in tickets:
         if ticket.name == ticketName:
