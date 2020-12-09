@@ -25,9 +25,14 @@ def validateTicketName(ticketName):
 
 # Function that validates that a ticket exists in the database
 def validateTicketExists(ticketName):
-    if not (Tickets.query.filter_by(name=ticketName).first()):
-        return False
-    return True
+    tickets = get_all_tickets()
+    ticketExits = False
+
+    for ticket in tickets:
+        if ticket.name == ticketName:
+            ticketExists = True
+
+    return ticketExists
 
 
 # Function that validates ticket quantity
@@ -40,13 +45,23 @@ def validateTicketQuantity(ticketQuantity):
 
 # Function that validates if there are enough tickets to buy
 def validateEnoughTickets(buyQuantity, ticketName):
-    tmp = Tickets.query.filter_by(name=ticketName).first()
+    tickets = get_all_tickets()
+    tmp = None
+    for ticket in tickets:
+        if ticket.name == ticketName:
+            tmp = ticket
+
     return buyQuantity <= tmp.quantity
 
 
 # Function that validates if the user has enough money to buy tickets
 def validateBalanceEnough(buyQuantity, ticketName, user):
-    tmp = Tickets.query.filter_by(name=ticketName).first()
+    tickets = get_all_tickets()
+    tmp = None
+    for ticket in tickets:
+        if ticket.name == ticketName:
+            tmp = ticket
+
     return user.balance >= ((buyQuantity * tmp.price) * 1.35) * 1.05 # service fee: 1.35 (35%), tax: 1.05 (5%)
 
 
