@@ -47,7 +47,7 @@ class TestSellPath(BaseCase):
         return date[6:] + "/" + date[4:6] + "/" + date[0:4]
 
 
-    def test_selling_path(self):
+    def test_1selling_path(self):
         self.logout()
         self.register_params(user1.email, user1.name, user1.password, user1.password)
         self.login(user1)
@@ -59,19 +59,30 @@ class TestSellPath(BaseCase):
         self.click("#btn-submit")
 
 
-        ticketNamePrices = self.find_elements("#tickets div h4")
-        tixAppears = any(tix.name in el.text and str(tix.price) in el.text for el in ticketNamePrices)
-        assert tixAppears
+        ticket_NamePrices = self.find_elements("#tickets div h4")
+        assert any(tix.name in el.text and str(tix.price) in el.text for el in ticket_NamePrices)
 
-        ticketDateQuantityEmail = self.find_elements("#tickets div h5")
-        tixAppears = any(self.format_date(tix.date) in el.text and str(tix.quantity) in el.text and tix.email in
-                         el.text for el in ticketDateQuantityEmail)
-        assert tixAppears
+        ticket_DateQuantityEmail = self.find_elements("#tickets div h5")
+        assert any(self.format_date(tix.date) in el.text and str(tix.quantity) in el.text and tix.email in
+                         el.text for el in ticket_DateQuantityEmail)
 
-    def test_buying_path(self):
+    def test_2buying_path(self):
         self.logout()
         self.register_params(user2.email, user2.name, user2.password, user2.password)
         self.login(user2)
+
+        # Check there are tickets available for purchase (from the last test case)
+        ticket_NamePrices = self.find_elements("#tickets div h4")
+        assert any(tix.name in el.text and str(tix.price) in el.text for el in ticket_NamePrices)
+
+        # Buy all available tickets
+        self.type("#buyName", tix.name)
+        self.type("#buyQuantity", tix.quantity)
+        self.click("#btn-submit2")
+
+        # Assert the tickets we just bought got unlisted
+        ticket_NamePrices = self.find_elements("#tickets div h4")
+        assert not any(tix.name in el.text and str(tix.price) in el.text for el in ticket_NamePrices)
 
 
 

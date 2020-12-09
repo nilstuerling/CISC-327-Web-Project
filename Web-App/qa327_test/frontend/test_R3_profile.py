@@ -119,9 +119,11 @@ class test_R3(BaseCase):
 		self.assert_element("#welcome-header")
 
 		# Checks that all tickets are displayed correctly on the homepage
-		self.assert_element("#tickets div h4")
-		self.assert_text("t1 100", "#tickets div h4")
-		self.assert_text("1 24/12/2020 test_frontend@test.com", "#tickets div h5")
+		ticket_np = self.find_elements("#tickets div h4")
+		assert any("t1" in el.text and str(100) in el.text for el in ticket_np)
+
+		ticket_dqe = self.find_elements("#tickets div h5")
+		assert any("24/12/2020" in el.text and str(1) in el.text and "test_frontend@test.com" in el.text for el in ticket_dqe)
 
 	# R3.6 - Checks if this page contains a form that a user can submit new tickets for sell.
 	# Fields: name, quantity, price, expiration date
