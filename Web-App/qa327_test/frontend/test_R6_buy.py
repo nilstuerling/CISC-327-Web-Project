@@ -24,17 +24,12 @@ no_user = None
 
 # Mock some sample tickets
 test_tickets = [
-    Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity='3',price='15'),
-    Tickets(email='test_frontend@test.com',name="t2",date='20201224',quantity='3',price='75')
+    Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity=3,price=15),
+    Tickets(email='test_frontend@test.com',name="t2",date='20201224',quantity=3,price=70)
 ]
 
 
 # set balance to 101
-
-# not enough quantity
-#   try to purchase quantity: 4 of ticket1 - check that this returns error
-#   try to purhcase quantity: 3 of ticket1 - check that this goes through
-
 
 # not enough balance
 #   try to purchase quantity: 2 of ticket2 - check that this returns error
@@ -132,12 +127,12 @@ class Test_R6(BaseCase):
         # self.assert_element("#welcome-header")
 
         # too little
-        self.submitBuyForm("ticketTest",  0)
+        self.submitBuyForm("t1",  0)
         self.assert_text("Invalid ticket quantity","#buyErrorMessage")
         self.assert_element("#welcome-header")
 
         # too much
-        self.submitBuyForm("ticketTest",  101)
+        self.submitBuyForm("t1",  101)
         self.assert_text("Invalid ticket quantity","#buyErrorMessage")
         self.assert_element("#welcome-header")
 
@@ -152,16 +147,47 @@ class Test_R6(BaseCase):
         self.start_new_session()
         self.open(base_url + '/')
 
+        # invalid ticket name
+        self.submitBuyForm("t0",  2)
+        self.assert_text("Invalid ticket name: ticket does not exist", "#buyErrorMessage")
+
+        # valid ticket name
+        # self.submitBuyForm("t1",  2)
+        # self.assert_text("Success", "#buyErrorMessage")
+
+
     def test_enough_quantity_to_purchase(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
+
+        # valid ticket name but too much requested
+        self.submitBuyForm("t1",  4)
+        self.assert_text("Invalid ticket quantity: must not exceed existing quantity of t1", "#buyErrorMessage")
+
+        # valid ticket name and valid amount
+        # self.submitBuyForm("t1", 1)
+        # self.assert_text("Success", "#buyErrorMessage")
+
         
     # R6.5 - The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
     def test_user_enough_balance(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
 
+        # valid name and valid quantity, but not enough balance
+        self.submitBuyForm("t2", 2)
+        self.assert_text("Invalid purchase order: insufficient funds", "#buyErrorMessage")
+
+        # valid name, quantity and balance
+        # self.submitBuyForm("t2", 1)
+        # self.assert_text("Success", "#buyErrorMessage")
+
+
     # R6.6 - For any errors, redirect back to / and show an error message
     def test_general_errors(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
+
+        
+
+
