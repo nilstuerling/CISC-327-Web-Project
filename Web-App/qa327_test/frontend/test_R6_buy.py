@@ -49,7 +49,8 @@ test_tickets = [
 
 @patch('qa327.backend.get_user', return_value=test_user)
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
-class FrontEndBuy(BaseCase):
+class Test_R6(BaseCase):
+
     def login(self):
         self.open(base_url + '/login')
         self.type("#email", valid_test_user_email)
