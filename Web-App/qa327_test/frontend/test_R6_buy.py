@@ -29,11 +29,6 @@ test_tickets = [
 ]
 
 
-# have two tickets in the system
-#   ticket1 in system should be of price 15 and quantity 3;
-#   ticket2 in system should be of price 75 and quantity 3;
-
-
 # set balance to 101
 
 # not enough quantity
@@ -51,13 +46,13 @@ test_tickets = [
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 class Test_R6(BaseCase):
 
+    # helper functions
     def login(self):
         self.open(base_url + '/login')
         self.type("#email", valid_test_user_email)
         self.type("#password", valid_test_user_password)
         return self.click('input[type="submit"]')
 
-    # Gets /logout and logs out current user if any
     def logout(self):
         self.get(base_url + '/logout')
 
@@ -67,11 +62,106 @@ class Test_R6(BaseCase):
         self.login()
         self.assert_element("#welcome-header")
 
-    def test_enough_quantity_to_purchase(self, *_):
+    def submitBuyForm(self, name, quantity):
+        self.type("#buyName", name)
+        self.type("#buyQuantity", quantity)
+        return self.click('input[id="btn-submit2"]')
+
+
+
+    # R6.1 - The name of the ticket has to be alphanumeric-only, and space allowed only if it is not the first or the last character
+    def test_ticket_name(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
 
-        self.assert_text("no text", "h2")
+        # empty name
+        # self.submitBuyForm("",  3)
+        # self.assert_text("Invalid ticket name","#buyErrorMessage")
+        # self.assert_element("#welcome-header")
 
+        # space at front
+        self.submitBuyForm(" ticketTest",  1)
+        self.assert_text("Invalid ticket name","#buyErrorMessage")
+        self.assert_element("#welcome-header") # stays on main page
+
+        # space at end
+        self.submitBuyForm("ticketTest ",  1)
+        self.assert_text("Invalid ticket name","#buyErrorMessage") # stays on main page
+        self.assert_element("#welcome-header") # stays on main page
+
+        # special character
+        self.submitBuyForm("ticket$Test",  1)
+        self.assert_text("Invalid ticket name","#buyErrorMessage") # stays on main page
+        self.assert_element("#welcome-header") # stays on main page
+
+        # passing ticket
+        # self.submitBuyForm("t1",  1)
+        # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
+        # self.assert_element("#welcome-header") # stays on main page
+
+
+    # R6.2 - The name of the ticket is no longer than 60 characters
+    def test_ticket_name_length(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
+
+        # empty name
+        # self.submitBuyForm("",  1)
+        # self.assert_text("Invalid ticket name","#buyErrorMessage")
+        # self.assert_element("#welcome-header")
+
+        # too long name
+        self.submitBuyForm("reallyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyylongname",  1)
+        self.assert_text("Invalid ticket name","#buyErrorMessage")
+        self.assert_element("#welcome-header")
+
+        # passing ticket
+        # self.submitBuyForm("t1",  1)
+        # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
+        # self.assert_element("#welcome-header") # stays on main page
+
+
+    # R6.3 - The quantity of the tickets has to be more than 0, and less than or equal to 100
+    def test_ticket_quantity_bounds(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
+
+        # empty quantity
+        # self.submitBuyForm("ticketTest",  "")
+        # self.assert_text("Invalid ticket name","#buyErrorMessage")
+        # self.assert_element("#welcome-header")
+
+        # too little
+        self.submitBuyForm("ticketTest",  0)
+        self.assert_text("Invalid ticket quantity","#buyErrorMessage")
+        self.assert_element("#welcome-header")
+
+        # too much
+        self.submitBuyForm("ticketTest",  101)
+        self.assert_text("Invalid ticket quantity","#buyErrorMessage")
+        self.assert_element("#welcome-header")
+
+        # passing
+        # self.submitBuyForm("t1",  2)
+        # self.assert_text("Success","#buyErrorMessage")
+        # self.assert_element("#welcome-header")
+
+
+    # R6.4 - The ticket name exists in the database and the quantity is more than the quantity requested to buy
+    def test_ticket_name_exists(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
+
+    def test_enough_quantity_to_purchase(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
         
+    # R6.5 - The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+    def test_user_enough_balance(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
 
+    # R6.6 - For any errors, redirect back to / and show an error message
+    def test_general_errors(self, *_):
+        self.start_new_session()
+        self.open(base_url + '/')
