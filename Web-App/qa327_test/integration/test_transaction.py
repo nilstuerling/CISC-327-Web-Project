@@ -12,8 +12,8 @@ regFields = namedtuple("regFields", "email name password")
 user1 = regFields("user1@test.com", "user1", "Valid123!")
 user2 = regFields("user2@test.com", "user2", "Valid123!")
 
-ticketFields = namedtuple("ticketFields", "name date quantity price")
-tix = ticketFields("Dream Theater Metropolis Pt 2 Scenes From a Memory", "20210420", 20, 50)
+ticketFields = namedtuple("ticketFields", "name date quantity price email")
+tix = ticketFields("Dream Theater Metropolis Pt 2 Scenes From a Memory", "20210420", 20, 50, user1.email)
 
 
 @pytest.mark.usefixtures('server')
@@ -42,6 +42,9 @@ class TestSellPath(BaseCase):
     def logout(self):
         self.get(base_url + '/logout')
 
+    # Formats date from string input into printable string
+    def format_date(self, date):
+        return date[6:] + "/" + date[4:6] + "/" + date[0:4]
 
 
     def test_selling_path(self):
@@ -53,5 +56,26 @@ class TestSellPath(BaseCase):
         self.type("#quantity", tix.quantity)
         self.type("#price", tix.price)
         self.type("#expireDate", tix.date)
+        self.click("#btn-submit")
+
+
+        ticketNamePrices = self.find_elements("#tickets div h4")
+        tixAppears = any(tix.name in el.text and str(tix.price) in el.text for el in ticketNamePrices)
+        assert tixAppears
+
+        ticketDateQuantityEmail = self.find_elements("#tickets div h5")
+
+        tixAppears = any(self.format_date(tix.date) in el.text and str(tix.quantity) in el.text and tix.email in
+                         el.text for el in ticketDateQuantityEmail)
+        assert tixAppears
+
+
+    def test_buying_path(self):
+        self.logout()
+        self.register_params(user1.email, user1.name, user1.password, user1.password)
+        self.login(user1)
+
+
+
 
 

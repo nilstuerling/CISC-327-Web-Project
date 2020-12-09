@@ -35,6 +35,7 @@ class Tickets(db.Model):
     date = db.Column(db.String(1000))
     quantity = db.Column(db.Integer)
     price = db.Column(db.Integer)
+    __table_args__ = (db.UniqueConstraint("email", "name", name="email_name_pair"))
 
 
 # it creates all the SQL tables if they do not exist

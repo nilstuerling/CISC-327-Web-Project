@@ -67,14 +67,16 @@
 
 <div id="tickets" style="margin-bottom:15px;">
   <h2 >Here are all available tickets</h2>
+  {% for ticket in tickets %}
+    <div>
+        <h4>Ticket: {{ ticket.name }} --- for ${{ ticket.price }}  </h4>
+        <h5> Date: {{ ticket.date }} --- {{ ticket.quantity }} available, from {{ ticket.email }}  </h5>
+    </div>
+  {% endfor %}
 </div>
 <br>
 <a id="logout_link" href='/logout'>logout</a>
 <br>
-  <script>
-    for (var i = 0; i < tickets.length; i++) {
-      document.getElementById("tickets").innerHTML += "<div id=\"ticket" + i + "\"> <h4>{{ tickets[0].name }} {{ tickets[0].price }} </h4> <h5>{{ tickets[0].quantity }} {{ tickets[0].date }} {{ tickets[0].email }}  </h5> </div>";
-    }
-  </script>
+
 
 {% endblock %}
