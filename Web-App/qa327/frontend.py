@@ -1,4 +1,5 @@
 from flask import render_template, request, session, redirect, url_for
+from sqlalchemy.exc import IntegrityError
 from qa327 import app
 from datetime import date
 from datetime import datetime
@@ -245,10 +246,17 @@ def sell_form_post(user):
     elif not(bn.validateTicketExpiryDate(expireDate)):
         sellErrorMessage = "Invalid ticket expiry date"
 
+    try:
+        bn.sell_ticket(user.email, name, quantity, price, expireDate)
+    except IntegrityError:
+        sellErrorMessage = "Already selling tickets of this name"
+
     if sellErrorMessage:
         return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
 
-    bn.sell_ticket(user.email, name, quantity, price, expireDate)
+
+
+
     return redirect('/')
 
 

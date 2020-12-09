@@ -1,7 +1,6 @@
 from qa327 import app
 from flask_sqlalchemy import SQLAlchemy
 from email_validator import validate_email, EmailNotValidError
-
 """
 This file defines all models used by the server
 These models provide us a object-oriented access
@@ -29,13 +28,14 @@ class User(db.Model):
 
 # Ticket object, stores ticket info in databse
 class Tickets(db.Model):
+    __table_args__ = (db.UniqueConstraint("email", "name", name="email_name_pair"),)
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(100))
     name = db.Column(db.String(1000))
     date = db.Column(db.String(1000))
     quantity = db.Column(db.Integer)
     price = db.Column(db.Integer)
-    __table_args__ = (db.UniqueConstraint("email", "name", name="email_name_pair"))
+
 
 
 # it creates all the SQL tables if they do not exist

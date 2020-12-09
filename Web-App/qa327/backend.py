@@ -138,10 +138,12 @@ def sell_ticket(userEmail, name, quantity, price, expireDate):
 
 # Updates ticket with parameters and commits new changes to tickets database
 def update_ticket(userEmail,name,quantity,price,expireDate):
-    formattedDate = format_date(expireDate)
-    updated_ticket = Tickets(email=userEmail,name=name,date=formattedDate,quantity=quantity,price=price)
-    db.session.update(updated_ticket)
-    db.session.commit()
+
+    # formattedDate = format_date(expireDate)
+    # updated_ticket = Tickets(email=userEmail,name=name,date=formattedDate,quantity=quantity,price=price)
+    # db.session.query.filter_by(email=userEmail, name=
+    #     update(updated_ticket)
+    # db.session.commit()
     return True
 
 
