@@ -46,12 +46,11 @@ def validateTicketQuantity(ticketQuantity):
 # Function that validates if there are enough tickets to buy
 def validateEnoughTickets(buyQuantity, ticketName):
     tickets = get_all_tickets()
-    tmp = None
     for ticket in tickets:
         if ticket.name == ticketName:
-            tmp = ticket
+            return buyQuantity <= ticket.quantity
 
-    return buyQuantity <= tmp.quantity
+    return False
 
 
 # Function that validates if the user has enough money to buy tickets
