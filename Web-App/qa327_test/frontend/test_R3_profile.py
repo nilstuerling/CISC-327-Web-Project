@@ -22,6 +22,7 @@ test_user = User(
 test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity='1',price='100')]
 
 @patch('qa327.backend.get_user', return_value=test_user)
+@patch('qa327.backend.login_user', return_value=test_user)
 @patch('qa327.backend.get_all_tickets', return_value=test_tickets)
 class test_R3(BaseCase):
 

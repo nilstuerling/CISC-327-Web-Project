@@ -3,6 +3,7 @@ from qa327.models import db, Tickets
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from datetime import datetime
+from decimal import Decimal
 
 """
 This file defines all backend logic that interacts with database and other services
@@ -162,7 +163,7 @@ def buy_ticket(user, name, quantity):
                 return "Invalid purchase order: insufficient funds"
             # Otherwise deducts specified quantity from ticket, and total price from user balance
             bought_ticket.quantity -= quantity
-            user.balance -= ((quantity * bought_ticket.price) * 1.35) * 1.05  # service fee: 1.35 (35%), tax: 1.05 (5%)
+            user.balance -= Decimal(((quantity * bought_ticket.price) * 1.35) * 1.05)  # service fee: 1.35 (35%), tax: 1.05 (5%)
             # Unlists ticket if none left
             if bought_ticket.quantity == 0:
                 db.session.query(Tickets).filter_by(name=name, email=bought_ticket.email).delete()
