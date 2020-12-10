@@ -224,7 +224,7 @@ def profile(user):
     for ticket in tickets:
         date1 = date.today()
         date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
-        if (date1 > date2 and date1 != date2):
+        if (date1 > date2):
             tickets.remove(ticket)
     return render_template('index.html', user=user, tickets=tickets, sellErrorMessage=sellErrorMessage, buyErrorMessage=buyErrorMessage, updateErrorMessage=updateErrorMessage)
 
@@ -246,16 +246,14 @@ def sell_form_post(user):
     elif not(bn.validateTicketExpiryDate(expireDate)):
         sellErrorMessage = "Invalid ticket expiry date"
 
-    try:
-        bn.sell_ticket(user.email, name, quantity, price, expireDate)
-    except IntegrityError:
-        sellErrorMessage = "Already selling tickets of this name"
-
     if sellErrorMessage:
         return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
 
-    return redirect('/')
+    error = bn.sell_ticket(user.email, name, quantity, price, expireDate)
+    if error:
+        return redirect(url_for('.profile', sellErrorMessage=error))
 
+    return redirect('/')
 
 @app.route('/sell', methods=['GET'])
 def sell_form_get():

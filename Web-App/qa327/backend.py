@@ -4,6 +4,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from datetime import datetime
 from decimal import Decimal
+from sqlalchemy.exc import IntegrityError
 
 """
 This file defines all backend logic that interacts with database and other services
@@ -130,11 +131,17 @@ def get_all_tickets():
 
 # Adds ticket with input parameters and commits new addition to tickets database
 def sell_ticket(userEmail, name, quantity, price, expireDate):
-    formattedDate = format_date(expireDate)
-    new_ticket = Tickets(email=userEmail, name=name,date=formattedDate,quantity=quantity,price=price)
-    db.session.add(new_ticket)
-    db.session.commit()
-    return True
+    try:
+        formattedDate = format_date(expireDate)
+        new_ticket = Tickets(email=userEmail, name=name,date=formattedDate,quantity=quantity,price=price)
+        db.session.add(new_ticket)
+        db.session.commit()
+    except IntegrityError as ie:
+        db.session.rollback()
+        return "Already selling tickets of this name"
+    except Exception as e:
+        return str(e)
+    return ""
 
 
 # Updates ticket with parameters and commits new changes to tickets database

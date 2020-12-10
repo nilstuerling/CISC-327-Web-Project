@@ -28,12 +28,6 @@ test_user = User(
 # Mock no user returned
 no_user = None
 
-# Mock some sample tickets
-test_tickets = [
-    {'name': 't1', 'price': '100'}
-]
-
-
 class FrontEndLoginPageTest(BaseCase):
 
     # R1.1 - If the user hasn't logged in, show the login page
