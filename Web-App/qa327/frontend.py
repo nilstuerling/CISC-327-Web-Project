@@ -223,6 +223,7 @@ def profile(user):
     tickets = bn.get_all_tickets()
     for ticket in tickets:
         date1 = date.today()
+        dates = ticket.date[6:] + "/" + ticket.date[4:6] + "/" + ticket.date[0:4]
         date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
         if (date1 > date2 and date1 != date2):
             tickets.remove(ticket)
