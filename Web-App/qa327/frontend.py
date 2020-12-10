@@ -1,4 +1,5 @@
 from flask import render_template, request, session, redirect, url_for
+from sqlalchemy.exc import IntegrityError
 from qa327 import app
 from datetime import date
 from datetime import datetime
@@ -245,10 +246,14 @@ def sell_form_post(user):
     elif not(bn.validateTicketExpiryDate(expireDate)):
         sellErrorMessage = "Invalid ticket expiry date"
 
+    try:
+        bn.sell_ticket(user.email, name, quantity, price, expireDate)
+    except IntegrityError:
+        sellErrorMessage = "Already selling tickets of this name"
+
     if sellErrorMessage:
         return redirect(url_for('.profile', sellErrorMessage=sellErrorMessage))
 
-    bn.sell_ticket(user.email, name, quantity, price, expireDate)
     return redirect('/')
 
 
@@ -268,21 +273,22 @@ def buy_form_post(user):
     quantity = int(request.form.get('buyQuantity'))
     buyErrorMessage = None
 
+    # Checks for ticket arguments validity
     if not(bn.validateTicketName(name)):
         buyErrorMessage = "Invalid ticket name"
     elif not(bn.validateTicketExists(name)):
         buyErrorMessage = "Invalid ticket name: ticket does not exist"
     elif not(bn.validateTicketQuantity(quantity)):
         buyErrorMessage = "Invalid ticket quantity"
-    elif not(bn.validateEnoughTickets(quantity, name)):
-        buyErrorMessage = "Invalid ticket quantity: must not exceed existing quantity of " + name
-    elif not(bn.validateBalanceEnough(quantity, name, user)):
-        buyErrorMessage = "Invalid purchase order: insufficient funds"
-    
+
+    try:    # Tries to buy ticket, checks for sufficient quantity and purchasing funds
+        buyErrorMessage = bn.buy_ticket(user, name, quantity)
+    except IntegrityError:
+        buyErrorMessage = "Could not buy ticket"
+
     if buyErrorMessage:
         return redirect(url_for('.profile', buyErrorMessage=buyErrorMessage))
 
-    bn.buy_ticket(user.email, name, quantity)
     return redirect('/')
 
 
@@ -313,10 +319,16 @@ def update_form_post(user):
         updateErrorMessage = "Invalid ticket expiry date"
     elif not (bn.validateTicketExists(name)):
         updateErrorMessage = "Invalid ticket name does not exist"
+
+    try:
+        updateErrorMessage = bn.update_ticket(user.email, name, quantity, price, expireDate)
+    except IntegrityError:
+        updateErrorMessage = "Invalid ticket update"
+
     if updateErrorMessage:
         return redirect(url_for('.profile', updateErrorMessage=updateErrorMessage))
 
-    bn.update_ticket(user.email, name, quantity, price, expireDate)
+
     return redirect('/')
 
 
