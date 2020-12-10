@@ -6,8 +6,6 @@ from datetime import datetime
 from decimal import Decimal
 from sqlalchemy.exc import IntegrityError
 
-import sys
-
 """
 This file defines all backend logic that interacts with database and other services
 """
