@@ -6,6 +6,8 @@ from datetime import datetime
 from decimal import Decimal
 from sqlalchemy.exc import IntegrityError
 
+import sys
+
 """
 This file defines all backend logic that interacts with database and other services
 """
@@ -137,6 +139,7 @@ def sell_ticket(userEmail, name, quantity, price, expireDate):
         db.session.add(new_ticket)
         db.session.commit()
     except IntegrityError as ie:
+        db.session.rollback()
         return "Already selling tickets of this name"
     except Exception as e:
         return str(e)

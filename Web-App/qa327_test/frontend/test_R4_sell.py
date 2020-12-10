@@ -6,6 +6,7 @@ from unittest.mock import patch
 from qa327.models import db, User
 from qa327.backend import format_date
 from werkzeug.security import generate_password_hash, check_password_hash
+from sqlalchemy.exc import IntegrityError
 
 """
 This file defines all unit tests for the /sell endpoint.
@@ -25,10 +26,6 @@ test_user = User(
     password=generate_password_hash(valid_test_user_password),
     balance = 5000
 )
-
-# Mock sell ticket error (mocking business logic failure)
-sell_ticket_error_message = "Unable to sell ticket"
-sell_ticket_failure = Exception(sell_ticket_error_message)
 
 # Invalid ticket name cases
 ticket_name_not_alphanumeric = "B@dT1cket~"
@@ -54,7 +51,14 @@ valid_quantity = 10
 valid_price = 10
 valid_date = "20221225"
 
+# Mock sell ticket error (mocking business logic failure)
+sell_ticket_error_message = "Unable to sell ticket"
+sell_ticket_failure = Exception(sell_ticket_error_message)
+sell_ticket_integrity_error_message = "Already selling tickets of this name"
+sell_ticket_integrity_error = IntegrityError(sell_ticket_integrity_error_message, params=(valid_test_user_email, valid_ticket_name, format_date(valid_date), valid_quantity, valid_price), orig="UNIQUE constraint failed: tickets.email")
+
 @patch('qa327.backend.get_user', return_value=test_user)
+@pytest.mark.usefixtures('fresh_server')
 class FrontEndSellTest(BaseCase):
 
     ### Helper functions ###
@@ -200,6 +204,19 @@ class FrontEndSellTest(BaseCase):
         self.assert_element("#sellErrorMessage")
         self.assert_text(sell_ticket_error_message, "#sellErrorMessage")
 
+    #R4.6 Check if sell actions fail when business logic fails, and redirects to profile page with an error message (DB Integrity Error)
+    @patch('qa327.backend.sell_ticket', return_value=sell_ticket_integrity_error)
+    def test_integrity_error_failure(self, *_):
+        # Start new session
+        self.startNewSession()
+
+        # Submit sell form
+        self.submitSellForm(valid_ticket_name, valid_quantity, valid_price, valid_date)
+
+        # Check that current page contains #sellErrorMessage
+        self.assert_element("#sellErrorMessage")
+        self.assert_text(sell_ticket_integrity_error_message, "#sellErrorMessage")
+
     #R4.7 Check if sell actions succeed with valid input and that new selling ticket information is posted on user profile page
     def test_sell_ticket_success(self, *_):
         # Start new session
@@ -210,6 +227,7 @@ class FrontEndSellTest(BaseCase):
 
         # Check that new selling ticket information is posted on user profile page
         self.assert_element("#tickets div h4")
-        self.assert_text(valid_ticket_name + " " + str(valid_price), "#tickets div h4")
+        #Ticket: {{ ticket.name }} --- for ${{ ticket.price }}
+        self.assert_text("Ticket: " + valid_ticket_name + " --- for $" + str(valid_price), "#tickets div h4")
         self.assert_element("#tickets div h5")
-        self.assert_text(str(valid_quantity) + " " + format_date(valid_date) + " " + valid_test_user_email, "#tickets div h5")
+        self.assert_text("Date: " + format_date(valid_date) + " --- " + str(valid_quantity) + " available, from " + valid_test_user_email, "#tickets div h5")
