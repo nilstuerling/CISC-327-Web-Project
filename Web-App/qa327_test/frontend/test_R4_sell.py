@@ -34,12 +34,12 @@ ticket_name_with_trailing_space = "ticketname "
 ticket_name_too_long = "ticketttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt"
 
 # Invalid quantity cases
-quantity_too_low = 0
-quantity_too_high = 101
+quantity_too_low = "0"
+quantity_too_high = "101"
 
 # Invalid price cases
-price_too_low = 9
-price_too_high = 101
+price_too_low = "9"
+price_too_high = "101"
 
 # Invalid date cases
 date_non_numeric = "2020 Dec 10"
@@ -47,8 +47,8 @@ date_from_the_past = "20191210"
 
 # Valid input case
 valid_ticket_name = "ticket name"
-valid_quantity = 10
-valid_price = 10
+valid_quantity = "10"
+valid_price = "10"
 valid_date = "20221225"
 
 # Mock sell ticket error (mocking business logic failure)
@@ -228,6 +228,6 @@ class FrontEndSellTest(BaseCase):
         # Check that new selling ticket information is posted on user profile page
         self.assert_element("#tickets div h4")
         #Ticket: {{ ticket.name }} --- for ${{ ticket.price }}
-        self.assert_text("Ticket: " + valid_ticket_name + " --- for $" + str(valid_price), "#tickets div h4")
+        self.assert_text("Ticket: " + valid_ticket_name + " --- for $" + valid_price, "#tickets div h4")
         self.assert_element("#tickets div h5")
-        self.assert_text("Date: " + format_date(valid_date) + " --- " + str(valid_quantity) + " available, from " + valid_test_user_email, "#tickets div h5")
+        self.assert_text("Date: " + format_date(valid_date) + " --- " + valid_quantity + " available, from " + valid_test_user_email, "#tickets div h5")
