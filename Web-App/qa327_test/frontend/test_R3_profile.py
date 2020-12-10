@@ -19,7 +19,7 @@ test_user = User(
 )
 
 # Mock some sample tickets
-test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity='1',price='100')]
+test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity='1',price='100')]
 
 @patch('qa327.backend.get_user', return_value=test_user)
 @patch('qa327.backend.login_user', return_value=test_user)
@@ -124,7 +124,7 @@ class test_R3(BaseCase):
 		assert any("t1" in el.text and str(100) in el.text for el in ticket_np)
 
 		ticket_dqe = self.find_elements("#tickets div h5")
-		assert any("20201224" in el.text and str(1) in el.text and "test_frontend@test.com" in el.text for el in ticket_dqe)
+		assert any("24/12/2020" in el.text and str(1) in el.text and "test_frontend@test.com" in el.text for el in ticket_dqe)
 
 	# R3.6 - Checks if this page contains a form that a user can submit new tickets for sell.
 	# Fields: name, quantity, price, expiration date
