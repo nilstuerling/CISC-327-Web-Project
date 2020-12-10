@@ -66,10 +66,10 @@ def validateTicketExpiryDate(date):
     month = date[4:6]
     day = date[6:]
     dateString = year + "-" + month + "-" + day
-    today = datetime.today()
+    today = datetime.today().date()
     try:
-        ticketDate = datetime.strptime(dateString, "%Y-%m-%d")
-        if (ticketDate < today and ticketDate != today):
+        ticketDate = datetime.strptime(dateString, "%Y-%m-%d").date()
+        if ticketDate < today:
             return False
         return True
     except ValueError as e:
