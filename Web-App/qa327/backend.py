@@ -3,6 +3,7 @@ from qa327.models import db, Tickets
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import date
 from datetime import datetime
+from decimal import Decimal
 
 """
 This file defines all backend logic that interacts with database and other services
@@ -44,21 +45,21 @@ def validateTicketQuantity(ticketQuantity):
 
 
 # Function that validates if there are enough tickets to buy
-def validateEnoughTickets(buyQuantity, ticketName):
+def validateEnoughTickets(buyQuantity, ticketName, ticketEmail):
     tickets = get_all_tickets()
     for ticket in tickets:
-        if ticket.name == ticketName:
+        if ticket.name == ticketName and ticket.email == ticketEmail:
             return buyQuantity <= ticket.quantity
 
     return False
 
 
 # Function that validates if the user has enough money to buy tickets
-def validateBalanceEnough(buyQuantity, ticketName, user):
+def validateBalanceEnough(buyQuantity, ticketName, user, ticketEmail):
     tickets = get_all_tickets()
     tmp = None
     for ticket in tickets:
-        if ticket.name == ticketName:
+        if ticket.name == ticketName and ticket.email == ticketEmail:
             tmp = ticket
 
     return user.balance >= ((buyQuantity * tmp.price) * 1.35) * 1.05 # service fee: 1.35 (35%), tax: 1.05 (5%)
@@ -83,7 +84,7 @@ def validateTicketExpiryDate(date):
     today = datetime.today().date()
     try:
         ticketDate = datetime.strptime(dateString, "%Y-%m-%d").date()
-        if (ticketDate < today and ticketDate != today):
+        if ticketDate < today:
             return False
         return True
     except ValueError as e:
@@ -152,19 +153,38 @@ def sell_ticket(userEmail, name, quantity, price, expireDate):
 
 # Updates ticket with parameters and commits new changes to tickets database
 def update_ticket(userEmail,name,quantity,price,expireDate):
+
     formattedDate = format_date(expireDate)
-    updated_ticket = Tickets(email=userEmail,name=name,date=formattedDate,quantity=quantity,price=price)
-    db.session.update(updated_ticket)
-    db.session.commit()
-    return True
+    toUpdate = db.session.query(Tickets).filter_by(email=userEmail, name=name).first()
+    if toUpdate:
+        toUpdate.quantity = quantity
+        toUpdate.price = price
+        toUpdate.date = formattedDate
+        db.session.commit()
+        return None
+    return "Could not find ticket with specified name to update"
 
 
 # Adds specified ticket to user account, removing specified quantity from database
-def buy_ticket(userEmail,name,quantity):
-    bought_ticket = Tickets(email=userEmail,name=name,quantity=quantity)
-    db.session.remove(bought_ticket)
-    db.session.commit()
-    return True
+def buy_ticket(user, name, quantity):
+    # Iterates through all listed tickets of specified name, sorted by price, low to high
+    for bought_ticket in db.session.query(Tickets).filter_by(name=name).order_by(Tickets.price):
+        # Checks if listed ticket has specified quantity
+        if validateEnoughTickets(quantity, name, bought_ticket.email):
+            # Returns error message for insufficient funds
+            if not validateBalanceEnough(quantity, name, user,
+                                         bought_ticket.email):
+                return "Invalid purchase order: insufficient funds"
+            # Otherwise deducts specified quantity from ticket, and total price from user balance
+            bought_ticket.quantity -= quantity
+            user.balance -= Decimal(((quantity * bought_ticket.price) * 1.35) * 1.05)  # service fee: 1.35 (35%), tax: 1.05 (5%)
+            # Unlists ticket if none left
+            if bought_ticket.quantity == 0:
+                db.session.query(Tickets).filter_by(name=name, email=bought_ticket.email).delete()
+            db.session.commit()
+            return None
+
+    return "Invalid Ticket Quantity"  # Ticket of specified quantity not found
 
 
 # Formats date from string input into printable string

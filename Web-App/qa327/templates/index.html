@@ -9,7 +9,7 @@
 <br>
 
 <div>
-  <h2 id="user_balance">Balance: {{ user.balance }}</h2>
+  <h2 id="user_balance">Balance: ${{ user.balance }}</h2>
 </div>
 
 <div>
@@ -51,13 +51,13 @@
 <h4 id='updateErrorMessage'>{{updateErrorMessage}}</h4>
 <form id="updateTicket" action="/update" method="post">
   <div class="form-group" style="margin-bottom:15px;">
-    <label for="updateName">Name</label>
+    <label for="updateName">Name of Ticket to Update</label>
     <input class="form-control" name="updateName" id="updateName" required>
-    <label for="updateQuantity">Quantity</label>
+    <label for="updateQuantity">New Quantity</label>
     <input class="form-control" name="updateQuantity" id="updateQuantity" required>
-    <label for="updatePrice">Price</label>
+    <label for="updatePrice">New Price</label>
     <input class="form-control" name="updatePrice" id="updatePrice" required>
-    <label for="updateExpireDate">Expiration Date</label>
+    <label for="updateExpireDate">New Expiration Date</label>
     <input class="form-control" name="updateExpireDate" id="updateExpireDate" required>
     <input class="btn btn-lg btn-primary" type="submit" id="btn-submit3" value="Update">
   </div>
@@ -67,14 +67,16 @@
 
 <div id="tickets" style="margin-bottom:15px;">
   <h2 >Here are all available tickets</h2>
-{% for ticket in tickets %}
+  {% for ticket in tickets %}
     <div>
-        <h4>{{ ticket.name }} {{ ticket.price }}  </h4>
-        <h5>{{ ticket.quantity }} {{ ticket.date }} {{ ticket.email }}  </h5>
+        <h4>Ticket: {{ ticket.name }} --- for ${{ ticket.price }}  </h4>
+        <h5> Date: {{ ticket.date }} --- {{ ticket.quantity }} available, from {{ ticket.email }}  </h5>
     </div>
-{% endfor %}
+  {% endfor %}
 </div>
 <br>
 <a id="logout_link" href='/logout'>logout</a>
 <br>
+
+
 {% endblock %}
