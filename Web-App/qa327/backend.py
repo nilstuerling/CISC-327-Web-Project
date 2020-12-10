@@ -147,9 +147,11 @@ def update_ticket(userEmail,name,quantity,price,expireDate):
         toUpdate.price = price
         toUpdate.date = formattedDate
         db.session.commit()
-    except IntegrityError:
+    except IntegrityError as ie:
         db.session.rollback()
         return "Unable to update ticket"
+    except Exception as e:
+        return str(e)
     return None
 
 
