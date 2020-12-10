@@ -78,7 +78,7 @@ class TestSellPath(BaseCase):
         assert any(tix.name in el.text and tix.price in el.text for el in ticket_NamePrices)
 
         ticket_DateQuantityEmail = self.find_elements("#tickets div h5")
-        assert any(tix.date in el.text and tix.quantity in el.text and tix.email in el.text
+        assert any(self.format_date(tix.date) in el.text and tix.quantity in el.text and tix.email in el.text
                    for el in ticket_DateQuantityEmail)
 
     # User registration to ticket updating path
@@ -102,7 +102,7 @@ class TestSellPath(BaseCase):
         assert any(tix.name in el.text and tix2.price in el.text for el in ticket_NamePrices)
 
         ticket_DateQuantityEmail = self.find_elements("#tickets div h5")
-        assert any(tix2.date in el.text and tix2.quantity in el.text and tix.email in el.text
+        assert any(self.format_date(tix2.date) in el.text and tix2.quantity in el.text and tix.email in el.text
                    for el in ticket_DateQuantityEmail)
 
     # User registration to ticket buying path

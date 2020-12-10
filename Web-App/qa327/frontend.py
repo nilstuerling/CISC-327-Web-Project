@@ -319,7 +319,7 @@ def update_form_post(user):
     elif not(bn.validateTicketExpiryDate(expireDate)):
         updateErrorMessage = "Invalid ticket expiry date"
     elif not (bn.validateTicketExists(name)):
-        updateErrorMessage = "Invalid ticket: name does not exist"
+        updateErrorMessage = "Invalid ticket name: does not exist"
 
 #    try:
 #        updateErrorMessage = bn.update_ticket(user.email, name, quantity, price, expireDate)
