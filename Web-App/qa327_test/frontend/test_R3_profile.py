@@ -19,7 +19,7 @@ test_user = User(
 )
 
 # Mock some sample tickets
-test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity='1',price='100')]
+test_tickets = [Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity='1',price='100')]
 
 @patch('qa327.backend.get_user', return_value=test_user)
 @patch('qa327.backend.login_user', return_value=test_user)
