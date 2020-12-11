@@ -190,6 +190,7 @@ class Test_R6(BaseCase):
         self.start_new_session()
         self.open(base_url + '/')
 
-        
-
+        # enter nonsense
+        self.submitBuyForm("nonsense", "2")
+        self.assert_text("Invalid ticket name","#buyErrorMessage")
 
