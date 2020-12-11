@@ -143,6 +143,7 @@ class Test_R6(BaseCase):
 
 
     # R6.4 - The ticket name exists in the database and the quantity is more than the quantity requested to buy
+    @patch('qa327.backend.buy_ticket', return_value="Invalid Ticket Quantity")
     def test_ticket_name_exists(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
@@ -162,7 +163,7 @@ class Test_R6(BaseCase):
 
         # valid ticket name but too much requested
         self.submitBuyForm("t1",  "4")
-        self.assert_text("Invalid ticket quantity: must not exceed existing quantity of t1", "#buyErrorMessage")
+        self.assert_text("Invalid Ticket Quantity", "#buyErrorMessage")
 
         # valid ticket name and valid amount
         # self.submitBuyForm("t1", "1")
@@ -170,6 +171,7 @@ class Test_R6(BaseCase):
 
         
     # R6.5 - The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
+    @patch('qa327.backend.buy_ticket', return_value="Invalid purchase order: insufficient funds")
     def test_user_enough_balance(self, *_):
         self.start_new_session()
         self.open(base_url + '/')
