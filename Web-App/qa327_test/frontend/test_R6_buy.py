@@ -24,8 +24,8 @@ no_user = None
 
 # Mock some sample tickets
 test_tickets = [
-    Tickets(email='test_frontend@test.com',name="t1",date='20201224',quantity=3,price=15),
-    Tickets(email='test_frontend@test.com',name="t2",date='20201224',quantity=3,price=70)
+    Tickets(email='test_frontend@test.com',name="t1",date='24/12/2020',quantity=3,price=15),
+    Tickets(email='test_frontend@test.com',name="t2",date='24/12/2020',quantity=3,price=70)
 ]
 
 
@@ -70,9 +70,9 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # empty name
-        # self.submitBuyForm("",  "")
-        # self.assert_text("Invalid ticket name","#buyErrorMessage")
-        # self.assert_element("#welcome-header")
+        self.submitBuyForm("",  "")
+        self.get_attribute("#buyName", "required")
+        self.assert_element("#welcome-header") # stays on main page
 
         # space at front
         self.submitBuyForm(" ticketTest",  "1")
@@ -90,9 +90,9 @@ class Test_R6(BaseCase):
         self.assert_element("#welcome-header") # stays on main page
 
         # passing ticket
-        # self.submitBuyForm("t1",  "1")
-        # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
-        # self.assert_element("#welcome-header") # stays on main page
+        self.submitBuyForm("t1",  "1")
+        self.assert_text("","#buyErrorMessage") # stays on main page
+        self.assert_element("#welcome-header") # stays on main page
 
 
     # R6.2 - The name of the ticket is no longer than 60 characters
@@ -101,9 +101,9 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # empty name
-        # self.submitBuyForm("",  "1")
-        # self.assert_text("Invalid ticket name","#buyErrorMessage")
-        # self.assert_element("#welcome-header")
+        self.submitBuyForm("",  "1")
+        self.get_attribute("#buyName", "required")
+        self.assert_element("#welcome-header") # stays on main page
 
         # too long name
         self.submitBuyForm("reallyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyylongname",  "1")
@@ -111,9 +111,9 @@ class Test_R6(BaseCase):
         self.assert_element("#welcome-header")
 
         # passing ticket
-        # self.submitBuyForm("t1",  "1")
-        # self.assert_text("Sucess","#buyErrorMessage") # stays on main page
-        # self.assert_element("#welcome-header") # stays on main page
+        self.submitBuyForm("t1",  "1")
+        self.assert_text("","#buyErrorMessage") # stays on main page
+        self.assert_element("#welcome-header") # stays on main page
 
 
     # R6.3 - The quantity of the tickets has to be more than 0, and less than or equal to 100
@@ -122,9 +122,9 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # empty quantity
-        # self.submitBuyForm("ticketTest",  "")
-        # self.assert_text("Invalid ticket name","#buyErrorMessage")
-        # self.assert_element("#welcome-header")
+        self.submitBuyForm("ticketTest",  "")
+        self.get_attribute("#buyQuantity", "required")
+        self.assert_element("#welcome-header") # stays on main page
 
         # too little
         self.submitBuyForm("t1",  "0")
@@ -137,9 +137,9 @@ class Test_R6(BaseCase):
         self.assert_element("#welcome-header")
 
         # passing
-        # self.submitBuyForm("t1",  "2")
-        # self.assert_text("Success","#buyErrorMessage")
-        # self.assert_element("#welcome-header")
+        self.submitBuyForm("t1",  "2")
+        self.assert_text("","#buyErrorMessage")
+        self.assert_element("#welcome-header")
 
 
     # R6.4 - The ticket name exists in the database and the quantity is more than the quantity requested to buy
@@ -149,12 +149,12 @@ class Test_R6(BaseCase):
         self.open(base_url + '/')
 
         # invalid ticket name
-        self.submitBuyForm("t0",  "2")
+        self.submitBuyForm("t0", "2")
         self.assert_text("Invalid ticket name: ticket does not exist", "#buyErrorMessage")
 
         # valid ticket name
-        # self.submitBuyForm("t1",  "2")
-        # self.assert_text("Success", "#buyErrorMessage")
+        self.submitBuyForm("t1", "2")
+        self.assert_text("", "#buyErrorMessage")
 
 
     def test_enough_quantity_to_purchase(self, *_):
@@ -166,8 +166,8 @@ class Test_R6(BaseCase):
         self.assert_text("Invalid Ticket Quantity", "#buyErrorMessage")
 
         # valid ticket name and valid amount
-        # self.submitBuyForm("t1", "1")
-        # self.assert_text("Success", "#buyErrorMessage")
+        self.submitBuyForm("t1", "1")
+        self.assert_text("", "#buyErrorMessage")
 
         
     # R6.5 - The user has more balance than the ticket price * quantity + service fee (35%) + tax (5%)
@@ -181,8 +181,8 @@ class Test_R6(BaseCase):
         self.assert_text("Invalid purchase order: insufficient funds", "#buyErrorMessage")
 
         # valid name, quantity and balance
-        # self.submitBuyForm("t2", "1")
-        # self.assert_text("Success", "#buyErrorMessage")
+        self.submitBuyForm("t2", "1")
+        self.assert_text("", "#buyErrorMessage")
 
 
     # R6.6 - For any errors, redirect back to / and show an error message
