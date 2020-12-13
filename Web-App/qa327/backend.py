@@ -27,9 +27,13 @@ def validateTicketName(ticketName):
 
 # Function that validates that a ticket exists in the database
 def validateTicketExists(ticketName):
-    if not (Tickets.query.filter_by(name=ticketName).first()):
-        return False
-    return True
+    tickets = get_all_tickets()
+
+    for ticket in tickets:
+        if ticket.name == ticketName:
+            return True
+
+    return False
 
 
 # Function that validates ticket quantity
@@ -42,13 +46,22 @@ def validateTicketQuantity(ticketQuantity):
 
 # Function that validates if there are enough tickets to buy
 def validateEnoughTickets(buyQuantity, ticketName, ticketEmail):
-    tmp = db.session.query(Tickets).filter_by(name=ticketName, email=ticketEmail).first()
-    return buyQuantity <= tmp.quantity
+    tickets = get_all_tickets()
+    for ticket in tickets:
+        if ticket.name == ticketName and ticket.email == ticketEmail:
+            return buyQuantity <= ticket.quantity
+
+    return False
 
 
 # Function that validates if the user has enough money to buy tickets
 def validateBalanceEnough(buyQuantity, ticketName, user, ticketEmail):
-    tmp = Tickets.query.filter_by(name=ticketName, email=ticketEmail).first()
+    tickets = get_all_tickets()
+    tmp = None
+    for ticket in tickets:
+        if ticket.name == ticketName and ticket.email == ticketEmail:
+            tmp = ticket
+
     return user.balance >= ((buyQuantity * tmp.price) * 1.35) * 1.05 # service fee: 1.35 (35%), tax: 1.05 (5%)
 
 
@@ -126,7 +139,15 @@ def register_user(email, name, password, password2):
 
 # Gets all tickets in tickets database and returns a list of all tickets
 def get_all_tickets():
-     return db.session.query(Tickets).all()
+    all_tickets = db.session.query(Tickets).all()
+    available_tickets = []
+    
+    for ticket in all_tickets:
+        date = str(datetime.strptime(ticket.date, "%d/%m/%Y").date()).replace("-", "")
+        if validateTicketExpiryDate(date):
+            available_tickets.append(ticket)
+
+    return available_tickets
 
 
 # Adds ticket with input parameters and commits new addition to tickets database

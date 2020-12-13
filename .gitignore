@@ -5,3 +5,4 @@ __pycache__/
 latest_logs/
 *.pyc
 debug.log
+*.swp

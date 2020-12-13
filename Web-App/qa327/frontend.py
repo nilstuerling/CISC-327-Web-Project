@@ -279,6 +279,9 @@ def buy_form_post(user):
     elif not(bn.validateTicketQuantity(quantity)):
         buyErrorMessage = "Invalid ticket quantity"
 
+    if buyErrorMessage:
+        return redirect(url_for('.profile', buyErrorMessage=buyErrorMessage))
+
     try:    # Tries to buy ticket, checks for sufficient quantity and purchasing funds
         buyErrorMessage = bn.buy_ticket(user, name, quantity)
     except IntegrityError:
