@@ -139,7 +139,15 @@ def register_user(email, name, password, password2):
 
 # Gets all tickets in tickets database and returns a list of all tickets
 def get_all_tickets():
-     return db.session.query(Tickets).all()
+    all_tickets = db.session.query(Tickets).all()
+    available_tickets = []
+    
+    for ticket in all_tickets:
+        date = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        if validateTicketExpiryDate(date):
+            available_tickets.append(ticket)
+
+    return available_tickets
 
 
 # Adds ticket with input parameters and commits new addition to tickets database
