@@ -143,7 +143,7 @@ def get_all_tickets():
     available_tickets = []
     
     for ticket in all_tickets:
-        date = datetime.strptime(ticket.date, "%d/%m/%Y").date()
+        date = str(datetime.strptime(ticket.date, "%d/%m/%Y").date()).replace("-", "")
         if validateTicketExpiryDate(date):
             available_tickets.append(ticket)
 
