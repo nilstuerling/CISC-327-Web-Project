@@ -6,3 +6,4 @@ latest_logs/
 *.pyc
 debug.log
 mysql_data
+*.swp

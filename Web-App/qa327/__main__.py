@@ -1,4 +1,5 @@
 from qa327 import app, frontend
+from qa327.models import db
 
 """
 This file runs the server at a given port
