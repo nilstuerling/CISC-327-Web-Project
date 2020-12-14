@@ -221,11 +221,6 @@ def profile(user):
         updateErrorMessage = request.args["updateErrorMessage"]
 
     tickets = bn.get_all_tickets()
-    for ticket in tickets:
-        date1 = date.today()
-        date2 = datetime.strptime(ticket.date, "%d/%m/%Y").date()
-        if (date1 > date2):
-            tickets.remove(ticket)
     return render_template('index.html', user=user, tickets=tickets, sellErrorMessage=sellErrorMessage, buyErrorMessage=buyErrorMessage, updateErrorMessage=updateErrorMessage)
 
 # gets ticket info from form
